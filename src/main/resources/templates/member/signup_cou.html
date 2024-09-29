@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+	<head>
+		<title>모두 모이자, 모모! 회원 가입 약관</title>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoSignup.css}">
+		<script defer th:src="@{/js/momoSignup_cou.js}"></script>
+
+	</head>
+	<body>
+		<!--전체 영역-->
+		<div layout:fragment="content" id='wrapper'>
+			
+			<!--회원 가입 동의 박스-->
+			<div class="frame-c">
+				<div class="frame-t3">
+					<!-- <fieldset> -->
+						<form method="get" id="form_wrap" th:action="@{/member/signup_next}">
+							<!--타이틀-->
+							<div class="infoTitleB">
+								[모두 모이자, 모모] 회원 가입<br>
+							</div>
+						  <!--전체 동의-->
+					    <div class="form-check selectAll py-4" id="terms_check_all">
+								<p class="title">전체 동의하기</p>
+							  <label class="form-check-label" for="flexCheckDefault">
+									<input class="form-check-input ms-1" type="checkbox" id="checkAll" name="checkAll">
+									&nbsp;&nbsp;모모 이용약관, 개인정보 처리방침에 모두 동의합니다.
+								</label>
+					    </div>
+						  <!--약관-->
+					    <div class="form-check pt-3 pe-4" id="form_check">
+								<table width="100%">
+									<tr>
+										<td width="80%">
+												<div>
+													<label class="form-check-label mb-2" for="flexCheckDefault">
+														<input class="form-check-input ms-1" type="checkbox" name="agreement" id="termsOfService" required>
+														&nbsp;&nbsp;<span class="ncsr">[필수] </span>이용약관
+													</label>
+												</div>
+										</td>
+										<td style="text-align: right;">
+											<p class="detailCheck" id="open">
+												자세히 보기 >
+											</p>
+										</td>
+									</tr>
+								</table>
+					    </div>
+						  <!--개인정보-->
+					    <div class="form-check pt-3 pe-4" id="form_check">
+								<table width="100%">
+									<tr>
+										<td width="80%">
+											<div>
+													<label class="form-check-label mb-2" for="flexCheckDefault">
+														<input class="form-check-input ms-1" type="checkbox" name="agreement" id="privacyPolicy" required>
+														&nbsp;&nbsp;<span class="ncsr">[필수] </span>개인정보 처리방침
+													</label>
+												</div>
+										</td>
+										<td style="text-align: right;">
+											<p class="detailCheck" id="open">
+												자세히 보기 >
+											</p>
+										</td>
+									</tr>
+								</table>
+					    </div>
+						  <div class="button my-4 frame-t3">
+							 <div class="d-grid gap-2">
+							   <button class="btn btn-lg btn-primary" type="submit" id="nextStep" disabled>다음</button>
+							 </div>
+						  </div>
+					  </form>
+					<!-- </fieldset> -->
+				</div>
+				<!--이용약관과 개인정보 처리방침-->
+				<div class="modal" id="modal-box">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content modal-size">
+							<div class="modal-header">
+								<h5 class="modal-title">이용약관</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close">
+									<span aria-hidden="true"></span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<p>제1조 (목적)<br>
+									이 약관은 (주)모모가 운영하는 인터넷 사이트 MOMO(이하 “모모”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 인터넷 사이트와 이용자의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.<br>
+									<br>
+									제2조 (정의)
+									① “사이트”란 회사가 재화 또는 용역(이하 “재화 등”이라 함)을 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 이용자 간 커뮤니티를 하는 등 상호작용을 위한 가상의 영업장을 말하며, 아울러 사이트를 운영하는 사업자의 의미로도 사용합니다.<br>
+									② “이용자”란 “사이트”에 접속하여 이 약관에 따라 “사이트”가 제공하는 서비스를 받는 회원 및 비회원을 말합니다.<br>
+									③ ‘회원’이라 함은 “사이트”에 개인정보를 제공하여 회원등록을 한 자로서, 계속적으로 “사이트”가 제공하는 서비스를 계속적으로 이용할 수 있는 자를 말합니다.<br>
+									④ ‘비회원’이라 함은 회원에 가입하지 않고 “사이트”가 제공하는 서비스를 이용하는 자를 말합니다.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal" id="modal-box">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content modal-size">
+							<div class="modal-header">
+								<h5 class="modal-title">개인정보 처리방침</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close">
+									<span aria-hidden="true"></span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<p>(주)모모 (이하 '회사'라 한다)는 정보주체의 자유와 권리 보호를 위해 「개인정보 보호법」 및 관계 법령이 정한 바를 준수하여, 적법하게 개인정보를 처리하고 안전하게 관리하고 있습니다.
+									이에 「개인정보 보호법」 제30조에 따라 정보주체에게 개인정보 처리에 관한 절차 및 기준을 안내하고, 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script layout:fragment="script">
+			var btn = document.getElementById("like")
+			
+			btn.addEventListener('click',function(){
+				btn.classList.toggle('active')
+				location.href = this.dataset.uri;
+			})
+
+		</script>
+		
+	</body>
+</html>

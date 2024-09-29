@@ -1,0 +1,92 @@
+<html layout:decorate="~{layout}">	
+<div layout:fragment="content" class="container my-3">
+	<style>
+		a.faq {
+			text-decoration: none;
+			font-size: 30px;
+		}
+		a.s{
+			text-decoration: none;
+		}
+		
+	</style>
+		
+	<a class= "faq" th:href="@{/faq/list}">FAQ</a>
+	<hr>
+
+		
+
+
+		<!--카테고리 넣기	
+			<div class="d-grid gap-2 d-md-block mb-3">
+				<a class= "btn btn-primary" type="button" th:href="@{/faq/list}">전체</a>
+			 <span  th:each="category : ${faqCategoryList}">
+				
+				 <a class="btn btn-primary" type="button" th:href="@{|/faq/list/${category.no}|}" th:text="${category.category}"></a>
+			</span>
+			<a th:href="@{/faq/category}" sec:authorize="hasRole('ROLE_ADMIN')">카테고리목록</a>
+			</div>
+			-->
+		
+		
+		
+		<!--FAQ 목록-->
+	<table class="table table-hover">
+		<thead class="table table-primary">
+		    <tr>
+		      <th scope="col">번호</th>
+			  <th scope="col">카테고리</th>
+		      <th scope="col">글제목</th>
+		      <th scope="col">작성자</th>
+		      <th scope="col">작성일</th>
+		    </tr>
+		</thead>
+		<tbody>
+			<tr class="table" th:each="faq  : ${faqPostingList}" >
+			      
+<!--번호-->		<td > </td>
+<!--카테고리-->	<td th:text="${faq.faqCategory.category}"> </td>			 
+<!--글제목-->		<td><a class="s" th:href="@{|/faq/detail/${faq.no}|}" th:text="${faq.subject}"></a></td>
+<!--작성자-->		<td th:text="${faq.author.membernick}"></td>
+<!--작성일-->		<td th:text="${#temporals.format(faq.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+			    </tr>
+			</tbody>
+			
+	</table>
+		
+	
+	
+	<!--질문등록 버튼-->
+	<a th:href="@{/faq/posting}" class="btn btn-primary mb-5"
+	sec:authorize="hasRole('ROLE_ADMIN')"
+	>질문등록</a>
+	
+	
+	<!--페이징
+		<div th:if="${!paging.isEmpty()}">
+		  <ul class="pagination justify-content-center">
+		    <li class="page-item" th:classappend="${!paging.hasPrevious}? 'disabled'">
+		      <a class="page-link" th:href="@{|?page=${paging.number-1}|}">&laquo;</a>
+		    </li>
+			
+		    <li th:each="page : ${#numbers.sequence(0, paging.totalPages -1)}" 
+				th:if="${page-3 <paging.number and page+3 > paging.number}"
+				th:classappend="${page == paging.number}? 'active'"	
+				class="page-item ">
+		      <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page+1}"></a>
+		    </li>
+		   
+			
+		    <li class="page-item" th:classappend="${!paging.hasPrevious}? ' disabled'">
+		      <a class="page-link" th:href="@{|?page=${paging.number+1}|}">&raquo;</a>
+		    </li>
+		  </ul>
+		</div> -->
+	
+	
+	
+	
+	
+</div>
+</html>
+

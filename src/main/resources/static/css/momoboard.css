@@ -1,0 +1,279 @@
+	body {
+    font-family: "Noto Sans KR", sans-serif;
+		font-optical-sizing: auto;
+		font-weight: 350;
+		font-style: normal;
+	}
+	
+	.foundid {
+		font-weight: bold;
+		color:#fb5e4d;	
+	}
+	
+	.btitle {
+		font-size : 1em;
+		font-weight: bold;
+		color:#fb5e4d;
+	}
+	
+	.title {
+		font-size: 1.7em;
+	}
+
+	.half {
+		max-width: 30em;
+	}
+	
+	.long {
+		min-width: 30em;
+		max-width: 50em;
+	}
+	
+	.wrapping {
+		padding:20px;
+		margin:20px;
+	}
+	
+	.wrappingmin {
+		width:100%;
+		padding:10px;
+		text-align:center;
+	}
+	
+	.wrappingnone {
+		width:100%;
+		padding:0px;
+	}
+	
+	.aligncenter {
+		text-align: center;
+	}
+	
+	.outline {
+		border:solid 1px #e5e5e5;
+		border-radius:5px;
+	}
+	
+	.underline {
+		border-bottom:solid 1px #e5e5e5;	
+	}
+	
+	.topline {
+		border-top:solid 1px #e5e5e5;	
+		padding:10px 0px;
+	}
+	
+	.dvd {
+		width: 100%;
+		overflow: auto;
+	}
+	
+	.dvd1, .dvd2, .dvd3, .dvd4 {
+		float:left;
+		vertical-align: middle;
+	}
+	
+	.dvd1, .dvd2 {
+		width:50%;
+	}
+	
+	.dvd3 {
+		width:50px;
+	}
+	
+	.dvd4 {
+		width:90%;
+		
+	}
+	
+	.dvd1, .dvd3 {
+		text-align: left;
+	}
+	
+	.dvd2 {
+		text-align: right;
+	}
+	
+	.divimg {
+		width:40x;
+		float:left;
+		margin:0px;
+		padding:0px;
+		text-align: left;
+	}
+	
+	textarea {
+		border:solid 1px #e5e5e5;
+		border-radius: 5px;
+		padding: 10px;
+		width: 100%;
+	}
+	
+	.textgray {
+		color:#888888;
+	}
+	
+	.textmomo {
+		color:#fb5e4d;
+	}
+	
+	.trinput {
+		font-size:1.1em;
+		padding:15px;
+		width:50px;
+	}
+	
+	.tableinput
+	
+	div {
+		padding: 0px;
+	
+	}
+	
+	div > div {
+		border-bottom: 1px #999999;
+		padding-bottom: 10px;
+		
+	}
+	
+	/*
+	button {
+		width:60px;
+		height:40px;
+		border:0px;
+		border-radius:5px;
+		padding:5px;
+		background-color: #f3f3f3;
+		font-weight:bold;
+	}
+	*/
+	
+	.momobutton {
+		width:60px;
+		height:40px;
+		border:0px;
+		border-radius:5px;
+		padding:5px;
+		vertical-align: middle;
+		background-color: #fccccc;
+		color:#fb5e4d;
+		font-weight:bold;
+	}
+	
+	.dbbutton {
+		width:60px;
+		height:60px;
+		border:0px;
+		border-radius:30px;
+		padding:5px;
+		vertical-align: middle;
+		background-color: #fccccc;
+		color:#fb5e4d;
+		font-weight:bold;
+	}
+	
+	.myComment{
+		background-color: #fccccc;
+	}
+	
+	summary::-webkit-details-marker { /* Safari 브라우저용 사용자 정의 스타일 */
+	    display: none;
+	}
+	summary {
+	    list-style-type: none; /* 그 외의 브라우저용 사용자 정의 스타일 */
+	}
+	
+	.reply {
+		width:100%;
+		height:10em;
+		padding:10px;
+		cursor:pointer;
+		border:none;
+	}
+	
+	.replycontent {
+		padding:10px;
+		display:none;
+		overflow:hidden;
+	}
+	
+	.lg {
+		font-size:2em;
+		font-weight:bold;
+	}
+	
+	.sm {
+		font-size:0.8em;
+	}
+	
+	.nick {
+		font-weight:bold;
+		font-size:0.9em;
+	}
+	
+	.profileimg {
+		width:34px;
+		height:34px;
+		border-radius:17px;
+	}
+	
+	/* Popup container - can be anything you want */
+	.popup {
+	  position: relative;
+	  display: inline-block;
+	  cursor: pointer;
+	  -webkit-user-select: none;
+	  -moz-user-select: none;
+	  -ms-user-select: none;
+	  user-select: none;
+	}
+
+	/* The actual popup */
+	.popup .popuptext {
+	  visibility: hidden;
+	  width: 160px;
+	  background-color: #555;
+	  color: #fff;
+	  text-align: center;
+	  border-radius: 6px;
+	  padding: 8px 0;
+	  position: absolute;
+	  z-index: 1;
+	  bottom: 125%;
+	  left: 50%;
+	  margin-left: -80px;
+	}
+
+	/* Popup arrow */
+	.popup .popuptext::after {
+	  content: "";
+	  position: absolute;
+	  top: 100%;
+	  left: 50%;
+	  margin-left: -5px;
+	  border-width: 5px;
+	  border-style: solid;
+	  border-color: #555 transparent transparent transparent;
+	}
+
+	.cddabong {
+		color:#fb5e4d;
+	}
+	
+.membermenu {
+	text-align: center;
+	color: salmon;
+	font-weight: bold;
+}
+
+a:hover, a:link, a:visited {
+	text-decoration-line: none;
+}
+
+	.mainmenu:after{display:block; content:''; clear:both;}
+	.mainmenu > li{position:relative; float:left; margin-right:5px;}
+	.mainmenu > li > a{display:block; padding:0 15px; height:40px; line-height:40px; color:#999999;}
+	.mainmenu > li:hover .submenu {display:block;}
+	.mainmenu .submenu{display:none; position:absolute; left:100; right:0; text-align:center;}
+	.mainmenu .submenu a{display:block; padding:5px; background:#ffffff; color:#999999;}
+

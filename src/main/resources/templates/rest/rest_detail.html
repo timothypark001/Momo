@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/restdetail.css}">
+		<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script>
+			$('.star_rating > .star').click(function() {
+			  $(this).parent().children('span').removeClass('on');
+			  $(this).addClass('on').prevAll('span').addClass('on');
+			})
+		
+			function review(){
+			$("#collapseOne").toggle();
+			}
+		</script>
+		
+
+	<title>맛집검색하자</title>
+	<meta charset="UTF-8">
+
+	</head>
+	<body>
+<div layout:fragment="content" id='wrapper'>
+	
+	
+	<div class="rest" >
+	<h2 th:text="${rest.name}"></h2>	
+		
+			<!--상단-->
+			<div class="upper" >
+				
+				<div class="rest_info card">
+					<div class="rest_pic_info " >
+					
+					<!--가게사진-->
+					<div class="pic" >
+					
+					<img th:src="${rest.img}" class="img" >
+					</div>
+					
+					<!--가게정보-->
+					<div class="info" >
+						<div class="info_detail">
+							
+							<div class="info_menu">
+								<div>
+									<span th:text="${rest.category}"></span>
+								</div>
+								<div>
+									<span th:text="|메뉴	${rest.menu}|"></span>
+								</div>	
+								<div>
+									<span th:text="|주소	${rest.addr}|"></span>
+								</div>
+								<div>
+									<span th:text="|전화번호	${rest.phone}|"></span>
+								</div>
+							</div><!--info_rest-->
+							
+							<div class="info_time" th:each=" time : ${rest.timeList}">
+									<div>
+										<span th:text="|영업시간 : ${time.open} ~ ${time.close}|"></span>
+									</div>
+									<div>
+										<span th:if="${time.breakStart ==''}"></span>
+										<span th:if="${time.breakStart !=''}"  th:text="|영업 준비시간 : ${time.breakStart} ~ ${time.breakFinish}|" ></span>
+									</div>
+									<div>
+										<span th:if="${time.lastOrder == ''}"></span>
+										<span th:if="${time.lastOrder != ''}" th:text="|마지막 주문시간 : ${time.lastOrder}|"></span>
+									</div>
+									<div>
+										<span th:if="${time.dayoff == ''}" ></span>
+										<span th:if="${time.dayoff != ''}" th:text="|휴무일 : ${time.dayoff}|" ></span>
+									</div>
+							</div><!--info_time-->
+						</div><!--infodetail-->
+
+							<!--찜, 평점, 리뷰갯수, 랭킹등-->
+							<div class="etc">
+								<div class="etc_total">
+									<div class="jjim" >
+											<!--찜하기-->
+											<form method="post" th:action="@{|/rest/jjim/${no}|}">
+											<button th:if="${jjim == null }" type="submit" class="btn " 
+											style="font-size:20px; color:#eb6864; --bs-btn-padding-y: .20rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .87rem;"  
+											>
+											<i class="fi fi-br-heart"></i>
+											
+											<span  th:text="${#lists.size(j)}"></span>	
+											</button>									  									
+											</form>
+											<!--찜취소-->							
+											<form method="post" th:action="@{|/rest/nojjim/${no}|}">
+											<button th:unless="${jjim == null }" type="submit" class="btn "  
+											style="font-size:20px; color:#eb6864; --bs-btn-padding-y: .20rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .87rem;" 
+											>										 
+											 <i class="fi fi-sr-heart"></i>
+											
+											 
+											 <span  th:text="|${#lists.size(j)}|"></span>	
+										 	</button>						
+											</form>	  
+									</div>
+									<div class="star"><i class="fi fi-sr-peach"></i>
+										<span th:text="| ${rest.avgStar} |" >  </span>	
+										 <span  th:text="|(${#lists.size(rest.reviewList)})|"></span>	
+									</div>
+								</div>
+							</div>	<!--찜, 평점 끝-->
+							
+							
+						</div><!--info-->
+						</div><!--rest_pic_info-->
+					</div><!--rest_info_card-->
+
+					<!--지도-->
+					<div class="map card" >
+					<div class="map_img">
+						<form>
+							<input type="hidden" th:value="${rest.map1}" id="map1" >
+							<input type="hidden" th:value="${rest.map2}" id="map2">
+							<input type="hidden" >
+						</form>
+						<!DOCTYPE html>
+						<html>
+						<head>
+						    <meta charset="UTF-8">
+						    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+						    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">		    
+						    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zcynsyz8ui"></script>
+						</head>
+						<body>
+						<div id="map" style="width: 280px;height:280px;"></div>
+						<script>	
+						var map33 = document.querySelector("#map1").value;
+						var map44 = document.querySelector("#map2").value;						
+						var mapOptions = {
+						    center: new naver.maps.LatLng(map33, map44),
+						    zoom: 18
+						};
+						var map = new naver.maps.Map('map', mapOptions);					
+						var marker = new naver.maps.Marker({
+						    position: new naver.maps.LatLng(map33, map44),
+						    map: map
+						});		
+						</script>
+						</body>
+						</html>					
+					</div>
+					</div><!--지도 끝-->
+				</div><!--upper 끝-->
+			
+
+
+				<div class="mid">
+				<!--같이먹기-->
+								<div class="et">
+									<div class="et_mid">
+										<!--같이먹기 현황, 신청-->
+										<div class="et_now">
+											<div class="card my-3 py-2">
+												<div class="mx-3">
+													<h5 class="d-flex justify-content-center" th:text="|현재 진행중인 같이먹기 : ${rest.progresset}건|"></h5>
+													<table class="table ">
+														<thead>
+															<th>제목</th>
+															<th>먹는날짜</th>
+														<!--<th>신청날짜</td>-->
+															<th>방장</th>
+															<th></th>
+														</thead>
+																				
+
+														<tr th:each="et : ${rest.etList}">
+															<div th:if="${#temporals.format(et.etdate , 'yyyy-MM-dd') >= #calendars.format(#calendars.createNow() , 'yyyy-MM-dd')}">
+																<td style="border: none;"><a th:href="@{|/et/detail/${rest.no}/${et.no}|}" th:text="${et.ettitle}"></a>
+																	<span class="text-danger small ms-2" th:text="|${#lists.size(et.prtmember)}/${et.prtnumber}|"></span>
+																</td>
+																<td style="border: none;" th:text="${#temporals.format(et.etdate , 'yyyy-MM-dd HH:mm')}"></td>
+															<!--<td th:text="${#temporals.format(et.regdate , 'yyyy-MM-dd HH:mm')}"></td>-->
+																<td style="border: none;" th:text="${et.applymember.membernick}"></td>
+																<td style="border: none;" th:if="${#temporals.format(et.etdate , 'yyyy-MM-dd') <= #calendars.format(#calendars.createNow() , 'yyyy-MM-dd')}" th:text="|참여기간 만료|"></td>
+															</div>
+														</tr>
+													</table>
+												</div>	
+												<!--댓글 작성 안내 영역-->
+												<div class="commentInfoBox2" sec:authorize="isAnonymous()">
+													로그인 후 같이먹기에 참여할 수 있습니다.
+												</div>			
+											</div>
+										</div>
+										
+										<!--같이먹기 신규생성-->
+										<div sec:authorize="isAuthenticated()" th:object="${eatTogetherForm}" class="et_new">
+											<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+											<div class="card my-3 py-2">				
+												<form th:action="@{|/et/create/${rest.no}|}" method="post">
+													<div class="d-flex justify-content-center">
+														<h5>새 같이먹기 신청</h5>
+													</div>				
+													<table class="table et_table">			
+														<tr class="my-3">
+															<td >
+																<b>제목</b>
+																<input type="text" th:field="*{ettitle}" class="form-control">
+															</td>			
+															<td>
+																<b>신청일시</b><!--min="2024-08-01T00:00" max="2024-09-03T18:00"-->
+																<input  type="datetime-local"  th:field="*{etdate}" class="form-control">
+															</td>
+															<td>
+																<b>선호 mbti</b>
+																<select type="text" th:field="*{prefmbti}" class="form-control">
+																	<option value="" selected disabled="disabled">MBTI</option>
+																	<option value="E">E인사람</option>
+																	<option value="I">I인사람</option>
+																	<option value="E/I">상관없음</option>
+																</select>
+															</td>
+														</tr>					
+														<tr>
+															<td>
+																<b>인원수</b>
+																<select type="text" th:field="*{prtnumber}" class="form-control">
+																	<option value="" selected>인원수 선택</option>
+																	<option value="2">2명</option>
+																	<option value="3">3명</option>
+																	<option value="4">4명</option>
+																</select>
+															</td>					
+															<td>
+																<b>선호 성별</b>
+																<select type="text" th:field="*{prefgender}" class="form-control">
+																	<option value="" selected>성별 선택</option>
+																	<option value="남">남</option>
+																	<option value="여">여</option>
+																	<option value="남여혼성">혼성</option>
+																</select>
+															</td>
+															<td class="d-flex justify-content-end">
+																<input type="submit" value="신청하기" class="btn btn-primary my-3 mx-3">
+															</td>	
+														</tr>
+													</table>
+												</form>		
+											</div>
+											
+										</div>
+									</div>
+								</div><!--et-->
+							</div>
+				
+					
+			<!--하단-->
+			<div class="bottom">
+				
+				<!--리뷰-->
+				<div class="review card">
+					<!--리뷰쓰기-->
+					<div class="accordion-item" > 
+					  <div class="accordion-header" id="headingOne">
+					    <!--작성버튼-->
+						<button class="accordion-button" type="button" onclick="review()"  
+						><span th:text="|리뷰(${#lists.size(review)})|">
+						</span> <span class="rc btn btn-primary">리뷰작성 <i class="fi fi-br-angle-down"></i>  </span>
+						 </button>
+					  </div><!--accordion-header-->
+					  <div id="collapseOne"  style="display: none;">
+					    <div class="accordion-body">
+								<div class="wrapping outline">
+									<form class="mb-3" name="myform" id="myform" method="post" th:action="@{|/rest/review/create/${rest.no}|}" th:object="${reviewForm}">
+										<!--별점-->
+										<link href="/assets/css/star.css" rel="stylesheet"/>
+											<fieldset>
+												<span class="text-bold"></span>
+												<input type="radio" name="star" value="5" id="rate1" ><label
+													for="rate1"> <i class="fi fi-sr-peach"></i>
+												</label>
+												<input type="radio" name="star" value="4" id="rate2"><label
+													for="rate2"> <i class="fi fi-sr-peach"></i>
+												</label>
+												<input type="radio" name="star" value="3" id="rate3"><label
+													for="rate3"> <i class="fi fi-sr-peach"></i>
+												</label>
+												<input type="radio" name="star" value="2" id="rate4"><label
+													for="rate4"> <i class="fi fi-sr-peach"></i>
+												</label>
+												<input type="radio" name="star" value="1" id="rate5" checked><label
+													for="rate5"> <i class="fi fi-sr-peach"></i>
+												</label>
+											</fieldset>
+										<!--리뷰작성칸-->
+											<form class=" needs-validation" novalidate>
+												<div class="re_create ">
+												  <label for="validationCustom03" class="form-label"></label>
+												  <textarea rows="10" type="text" class="form-control" id="validationCustom03" required name="content" placeholder="리뷰를 작성해보세요"></textarea>
+												  <div class="invalid-feedback">
+												  </div>
+												</div>
+												
+												<div class="col-md-6 mb-3"  >
+												    <div>
+												      <button class="btn btn-primary" type="submit">등록</button>
+												    </div>
+												</div>
+											  </form><!--리뷰작성끝-->
+										</form>	
+									</div><!--wrapping outline-->					      
+						</div><!--accordion-body-->
+					  </div><!--collapseOne-->
+					</div><!--accordion-item-->
+					<!--리뷰 리스트-->
+					<hr>
+					<th:block th:each="review : ${rest.reviewList}" th:field="${review}">
+					<div class="re_list ">
+						<table class="table re_table" >
+						  <thead>
+						    <tr>
+								<th><span th:text="${review.membernick}" ></span> &nbsp;&nbsp; 
+									<i class="fi fi-sr-peach" style="color:#eb6864;"></i>
+									<span th:text="|${review.star} 점|" style="color:primary; font-size: small;"> </span></th>
+						     	<th></th>
+						    </tr>
+						  </thead>
+						  <tbody >
+							<tr>
+								<td><span th:text=" ${review.content}" ></span></td>
+						      	<td style="width: 150px;"> <span th:text="|${#temporals.format(review.createDate, 'yyyy-MM-dd')}|" ></span></td>
+							</tr>
+							<tr >   
+								<!--따봉-->
+							   	<td class="re_ddabong" style="font-size: 10px; text-decoration-color: none; ">	
+									<a href="javascript:void(0);" class="recommend"
+									   th:data-uri="@{|/rest/review/ddabong/${rest.no}/${review.no}|}"><i class="fi fi-sr-thumbs-up"></i>
+									   좋아요
+									<span  th:text="${#lists.size(review.ddabong)}">
+									</span>
+									</a>
+								</td>
+								<td>
+									<!--삭제-->
+									<span  style="text-align:right" class="review_edit " sec:authorize="isAuthenticated()"
+										th:if="${review.author.memberid != null and #authentication.getPrincipal().getUsername() == review.author.memberid}">
+									<a th:href="@{|/rest/review/delete/${rest.no}/${review.no}|}" onclick="confirm('정말로 삭제하시겠습니까?')  ">삭제</a>
+									</span>	
+									<span  style="text-align:right" class="review_edit " sec:authorize="hasRole('ROLE_ADMIN')">
+									<a th:href="@{|/rest/review/delete/${rest.no}/${review.no}|}" onclick="confirm('정말로 삭제하시겠습니까?')  ">삭제</a>
+									</span>	
+								</td>
+							</tr>
+							</tbody>
+							</table>
+							<hr>
+					</div><!--re_dvd-->
+					</th:block><!--리뷰리스트-->
+					<!--댓글 작성 안내 영역-->
+					<div class="commentInfoBox2" sec:authorize="isAnonymous()">
+						로그인 후 댓글을 작성하실 수 있습니다.
+					</div>
+				</div><!--review card-->								
+			</div><!--bottom-->
+		</div><!--rest-->	
+	
+
+
+	<script layout:fragment="script" type="text/javascript">
+	const recommend_elements = document.getElementsByClassName("recommend");
+	Array.from(recommend_elements).forEach(function(element) {
+	    element.addEventListener('click', function() {
+	        if(confirm("정말로 추천하시겠습니까?")) {
+	            location.href = this.dataset.uri;
+	        };
+	    });
+	});
+	
+	
+
+	
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
+	(() => {
+	  'use strict'
+
+	  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+	  const forms = document.querySelectorAll('.needs-validation')
+
+	  // Loop over them and prevent submission
+	  Array.from(forms).forEach(form => {
+	    form.addEventListener('submit', event => {
+	      if (!form.checkValidity()) {
+	        event.preventDefault()
+	        event.stopPropagation()
+	      }
+
+	      form.classList.add('was-validated')
+	    }, false)
+	  })
+	})()
+	
+</script>
+
+
+
+
+</body>
+</html>

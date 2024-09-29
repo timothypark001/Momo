@@ -1,0 +1,151 @@
+<html layout:decorate="~{layout}">
+<head>
+	
+		
+		<style>
+			
+		th.cen {
+			width:65%;
+			text-align :center;
+		}
+	
+		a.no {
+			text-decoration: none;
+			color :black;
+			font-size : 30px;
+			
+		}
+		
+		a.noline {
+			text-decoration: none;
+			color : black;
+		}
+		
+		td {
+		max-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		}
+		
+		.divbox {
+		width:100%;
+		height:15px;
+		}
+				
+	    .divLeft {
+		width:50%;
+		float:left;
+		box-sizing: border-box;
+		}
+				
+		.divRight {
+		width:15%;
+		float: right;
+		box-sizing: border-box;
+		}
+
+		</style>
+</head>
+<body>
+		<div layout:fragment="content">
+
+<!--전체-->
+<form th:action="@{/inquiryPosting/noCommentList}" method="get" id="searchForm">
+		<input type="hidden" id="subject" name="subject" th:value="${subject}">
+		<input type="hidden" id="page" name="page" th:value="${paging.number}">
+	</form>
+<div class="container">
+	<!--상단 게시판 이름, 버튼-->
+	<div class="divbox">
+	<!--게시판 이름-->
+	<div class="divLeft">
+		<span style="font-size: 30px; font-weight: bold;">문의 글</span>
+	</div>
+	<!--최신순 / 미답변 글 버튼-->
+	<div class="divRight">
+		<a class="btn btn-primary btn btn-sm" th:href="@{/inquiryPosting/list}">최신순</a>
+		<a class="btn btn-primary btn btn-sm" th:href="@{/inquiryPosting/noCommentList}">미답변 글 보기</a>
+	</div>
+	</div>
+	<div th:if="${paging.isEmpty()}" class="card my-2" style="width:100%; height:200px; background-color: gainsboro;" >
+		<strong style="margin:auto">현재 미답변 문의가 없습니다.</strong>
+	</div>
+	<!--글 목록-->
+	<div th:unless="${paging.isEmpty()}">
+	<table class="table table-hover my-2">
+		<thead>
+			<tr class="table-primary">
+			<th style="width:5%"></th>
+			<th class="cen">제목</th>
+			<th style="width:10%">작성자</th>
+			<th style="width:10%">작성일</th>
+			<th style="width:10%">처리상태</th>
+			</tr>
+		</thead>
+		<tbody>
+			<div>
+				<tr class="table" th:each="posting :${paging}">
+				   <td>Q</td>
+				   <td>
+					<a class="noline" th:href="@{|/inquiryPosting/detail/${posting.no}|}" th:text="${posting.subject}"></a>
+				   </td>
+				   <td th:text=${posting.membernick}></td>
+				   <td th:if="${#calendars.format(#calendars.createNow(), 'yyyy.MM.dd') == #temporals.format(posting.createDate, 'yyyy.MM.dd')}" 
+				       th:text="${#temporals.format(posting.createDate, 'HH:mm')}"></td>
+				   <td th:unless="${#calendars.format(#calendars.createNow(), 'yyyy.MM.dd') == #temporals.format(posting.createDate, 'yyyy.MM.dd')}" 
+				   	   th:text="${#temporals.format(posting.createDate, 'yyyy.MM.dd')}"></td>			   
+				   <td th:if="${#lists.isEmpty(posting.commentList)}">대기</td>
+				</tr>
+			</div>
+		</tbody>
+	</table>	
+	</div>
+	            <div style="width:50%;margin:auto;">
+					<div class="input-group mb-3">
+				      <input type="text" id="search_subject" class="form-control" th:value="${subject}">
+				      <button type="button" id="btn_search" class="btn btn-outline-secondary">찾기</button>	
+			  	    </div>
+				</div>	
+	<!--문의 글 목록 페이징-->
+				<div th:if="${!paging.isEmpty()}">
+					<ul class="pagination justify-content-center">
+				       <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+						<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
+						   <span>&laquo;</span>
+						</a>
+					   </li>
+					   <li th:each="page : ${#numbers.sequence(0, paging.totalPages-1) }"
+						th:if="${page >= paging.number -3 and page <= paging.number + 3}"
+						th:classappend="${page==paging.number} ? 'active'" class="page-item">
+						  <a th:text="${page+1}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
+						</li>
+						<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+						  <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
+						    <span>&raquo;</span>
+						  </a>
+						</li>
+				    </ul>
+				</div>	     				
+			</div>	
+	
+</div>
+<script layout:fragment="script" type="text/javascript">
+			const page_elements = document.getElementsByClassName("page-link");
+			Array.from(page_elements).forEach(function(element){
+			  element.addEventListener('click' , function(){
+			    document.getElementById('page').value = this.dataset.page;
+				document.getElementById('searchForm').submit();
+			  });
+			});
+			const btn_search = document.getElementById("btn_search");
+			btn_search.addEventListener('click' , function(){
+			  document.getElementById('subject').value = document.getElementById('search_subject').value;
+			  document.getElementById('page').value = 0;
+			  document.getElementById('searchForm').submit();
+			});
+		</script>
+
+
+</body>
+</html>

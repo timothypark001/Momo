@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html land="ko">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+	<title>모두 모이자, 모모!</title>
+</head>
+
+<body>
+	
+	<!-- 본문 영역-->
+	<th:block layout:fragment="content"></th:block>
+	<!-- 기본 탬플릿 안에 삽입된 내용 끝-->
+	
+	<!--자바스크립트 -->
+	<th:block layout:fragment="script"></th:block>
+	
+	
+</body>
+</html>

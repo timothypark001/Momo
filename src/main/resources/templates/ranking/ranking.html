@@ -1,0 +1,64 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" id='wrapper'>
+	<style>				
+				img.siz {
+					border-radius: 50%;
+					width:30px;
+					height: 30px;
+					object-fit: cover;
+					vertical-align: middle;
+				}
+				
+			</style>
+<div class = "container my-5">
+
+	<center>
+	<span style="font-size: 40px; font-weight: bold;">유저 랭킹</span>
+	   <table class="table table-hover my-5" style="width:60%">
+			<tr>
+				<th style="width:5px;">순위</th>
+				<th style="width:40px"></th>
+				<th style="width:35px;"></th>
+				<th style="width:200px;">유저</th>
+				<th style="width:50px;">당도</th>
+			</tr>
+			<tr th:each="profile, loop : ${profileList}">
+				<div th:if="${loop.count==1}">
+				  <td style="background-color: gold;" align="center" th:text="${loop.count}"></td>
+				  <td style="background-color: gold;" align="left"> <img style="width:43%" src="https://cdn-icons-png.flaticon.com/128/11010/11010230.png"></td>
+				  <td style="background-color: gold;" align="right" th:if="${profile.author.image != null}"><img class="siz" th:src="@{|/img/${profile.author.image.storeFilename}|}"></td>
+				  <td style="background-color: gold;" align="right" th:unless="${profile.author.image != null}"><img class="siz" src="/img/default_profile.png"></td>
+				  <td style="background-color: gold;" th:text="${profile.author.membernick}"></td>
+				  <td style="background-color: gold;" th:text="${profile.brix}"></td>
+				</div>
+				<div th:if="${loop.count==2}">
+				  <td style="background-color: silver;" align="center" th:text="${loop.count}"></td>
+				  <td style="background-color: silver;" align="left"><img style="width:43%" src="https://cdn-icons-png.flaticon.com/128/11010/11010233.png"></td>
+				  <td style="background-color: silver;" align="right" th:if="${profile.author.image != null}"><img class="siz" th:src="@{|/img/${profile.author.image.storeFilename}|}"></td>
+				  <td style="background-color: silver;" align="right" th:unless="${profile.author.image != null}"><img class="siz" src="/img/default_profile.png"></td>
+				  <td style="background-color: silver;" th:text="${profile.author.membernick}"></td>
+				  <td style="background-color: silver;" th:text="${profile.brix}"></td>
+				</div>
+				<div th:if="${loop.count==3}">
+				  <td style="background-color: sandybrown;" align="center" th:text="${loop.count}"></td>
+				  <td style="background-color: sandybrown;" align="left"><img style="width:43%" src="https://cdn-icons-png.flaticon.com/128/11010/11010236.png"></td>
+				  <td style="background-color: sandybrown;" align="right" th:if="${profile.author.image != null}"><img class="siz" th:src="@{|/img/${profile.author.image.storeFilename}|}"></td>
+				  <td style="background-color: sandybrown;" align="right" th:unless="${profile.author.image != null}"><img class="siz" src="/img/default_profile.png"></td>
+				  <td style="background-color: sandybrown;" th:text="${profile.author.membernick}"></td>
+				  <td style="background-color: sandybrown;"th:text="${profile.brix}"></td>
+				</div>
+				<div th:if="${loop.count > 3}">
+				  <td align="center" th:text="${loop.count}"></td>
+				  <td></td>
+				  <td align="right" th:if="${profile.author.image != null}"><img class="siz" th:src="@{|/img/${profile.author.image.storeFilename}|}"></td>
+				  <td align="right" th:unless="${profile.author.image != null}"><img class="siz" src="/img/default_profile.png"></td>
+				  <td th:if="${profile.author.password==null}">탈퇴회원입니다</td>
+				  <td th:unless="${profile.author.password==null}" th:text="${profile.author.membernick}"></td>
+				  <td th:text="${profile.brix}"></td>
+			    </div>
+			</tr>
+		</table>
+    </center>
+  </div>
+ </div>
+</html>

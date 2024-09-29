@@ -1,0 +1,73 @@
+<html layout:decorate="~{layout_mypage}">
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/myJjimList.css}">
+		<title>맛집검색하자</title>	
+	</head>
+	<body>
+		<div layout:fragment="mypageContent" id="wrapper">
+	<!--전체 영역-->
+		<div>
+			<!--콘텐츠 영역-->
+			<div>	
+				<!--콘텐츠 세부 영역-->
+					<div class="frame-dvd my-5">
+						<!--본문 전체-->
+							<span style="font-size: 20px; font-weight: bold;">내 찜</span>
+							<!--찜한 가게가 없을 때-->
+							<div th:if="${paging.isEmpty()}" class="card my-2" style="height:200px; background-color: gainsboro;" >
+								<strong style="margin:auto">현재 찜한 가게가 없습니다. 가게를 찜 해주세요.</strong>
+							</div>
+							<!--찜한 가게가 있을 때-->
+							<div th:unless="${paging.isEmpty()}" class="new_list">	
+								<!--식당사진 리스트-->
+								<div class="list mx-3">			
+									<div class="card mb-5  c1"  th:each="rest : ${paging}">
+										<a th:href="@{|/rest/detail/${rest.rest.no}|}" class="a1">
+											<!--사진-->
+											<div class="c2">
+												<img th:src="${rest.rest.img}" class="img">
+
+											</div>
+												<div class="card-body" >								
+													<strong><span th:text="${rest.rest.name}"></span></strong>											
+													<span class="card-text" th:text="${rest.rest.menu}"></span><br>
+													<i class="fi fi-sr-heart" style="color: rgb(255, 0, 0);">					
+													</i><span th:text="|(${#lists.size(rest.rest.jjimList)})|"></span>&nbsp;|&nbsp;
+													<i class="fi fi-sr-peach" style="color: #eb6864;">
+													</i><span th:text="${rest.rest.avgStar}"></span>
+													<p th:text="| ${rest.rest.category} / 같이 먹기 방 : ${rest.rest.progresset} |"></p>
+												 </div>
+										</a>			  
+									</div>
+								</div>
+							</div>					  								
+							<!-- 페이징처리 시작 -->
+							 <div style="margin-right:30px" th:if="${!paging.isEmpty()}">
+							     <ul class="pagination justify-content-center">
+							         <li style="padding:0" class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+							             <a class="page-link"
+							                 th:href="@{|?page=${paging.number-1}|}">
+							                 <span>&laquo;</span>
+							             </a>
+							         </li>
+							         <li style="padding:0" th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+							             th:classappend="${page == paging.number} ? 'active'" 
+							             class="page-item">
+							             <a th:text="${page+1}" class="page-link" th:href="@{|?page=${page}|}"></a>
+							         </li>
+							         <li style="padding:0" class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+							             <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+							                 <span>&raquo;</span>
+							             </a>
+							         </li>
+							     </ul>
+							 </div>
+
+						</div>
+						
+				   </div>
+			</div>
+		</div>
+		
+</body>
+</html>

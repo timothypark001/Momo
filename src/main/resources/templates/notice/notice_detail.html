@@ -1,0 +1,150 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" id='wrapper'>
+	<!-- 공지사항 제목 -->
+	<h2 class="border-bottom py-3" th:text="${noticePosting.subject}"></h2>
+	<!-- 작성시간, 작성자(닉네임) -->
+		<div class="d-flex justify-content-start">
+			<div class="badge bg-light text-dark p-2 text-start">
+				<span th:text="${#temporals.format(noticePosting.createDate,'yyyy-MM-dd')}"></span>
+				<span th:if="${noticePosting.author != null}" th:text="${noticePosting.author.membernick}"></span>	
+			</div>
+		</div>
+		<!-- 조회수
+		<div class="d-flex justify-content-end">
+					<div class="badge bg-light text-dark p-2 text-start">
+					
+					<span>조회수 </span>
+					<span th:text="${noticePosting.cnt}"></span>
+				
+					</div>
+		</div> -->
+		
+	
+	<!-- 공지사항 글 (카드형식)-->
+	 	<div class="card my-3">
+		<div class="card-body">
+			<div class="card-text" style="white-space: pre-line;" th:text="${noticePosting.content}"></div>
+		
+			
+			<!-- 조회수 
+					<div class="d-flex justify-content-end">
+						<div class="badge bg-light text-dark p-2 text-start">
+							<span>조회수 </span>
+							<span th:text="${noticePosting.cnt}"></span>
+						</div>
+					</div>
+				
+			<div class="d-flex justify-content-end">
+				<div class="badge bg-light text-dark p-2 text-start">
+					<div th:text="${#temporals.format(noticePosting.createDate,'yyyy-MM-dd')}"></div>
+				</div>
+			</div> 
+		<div class="d-flex justify-content-end">
+		<div class="badge bg-light text-dark p-2 text-start">
+		<span th:if="${noticePosting.author != null}" th:text="${noticePosting.author.membernick}"></span>
+		</div>
+		</div>
+		-->
+		
+		
+		
+		
+				
+				
+		<!-- 수정버튼 -->
+		<div class="my-3">
+			<a th:href="@{|/notice/modify/${noticePosting.no}|}" class="btn btn-sm btn-outline-primary"
+			sec:authorize="isAuthenticated()"
+			th:if="${noticePosting.author != null and #authentication.getPrincipal().getUsername() == noticePosting.author.memberid}"  
+			th:text="수정"></a>
+		
+			
+			
+			
+		<!-- 삭제 버튼 -->
+		<a href="javascript:void(0);" th:data-uri="@{|/notice/delete/${noticePosting.no}|}"	
+		class="delete btn btn-sm btn-outline-primary" 
+		sec:authorize="isAuthenticated()"
+		th:if="${noticePosting.author !=null and #authentication.getPrincipal().getUsername == noticePosting.author.memberid}"
+		th:text="삭제"></a>			
+			
+			
+		</div>
+			
+			
+		</div>
+		</div>
+	
+
+	
+	<!-- 댓글 개수 
+	
+	<h6 class="border-bottom py-2 my-3" th:text="|${#lists.size(noticePosting.commentList)}개의 답변이 있습니다|"></h6>
+	
+	
+	 댓글목록
+	<div class="card my-3" th:each="comment : ${noticePosting.commentList}">
+		<div class="card-body">
+			<div class="card-text" style="white-space: pre-line;" th:text="${comment.content}"></div>
+			
+			
+
+			작성일 표시
+					<div class="d-flex justify-content-end">
+						<div class="badge bg-light text-dark p-2 text-start">
+							<div th:text="${#temporals.format(comment.createDate,'yyyy-MM-dd HH:mm')}"></div>
+						</div>
+						
+					</div> 
+					여기까지 작성일 표시
+					
+					
+					
+					
+					
+					 댓글 작성자
+						<div class="d-flex justify-content-end">
+						<div class="badge bg-light text-dark p-2 text-start">
+						<span>작성자 </span>
+						<span th:if="${comment.author != null}" th:text="${comment.author.memberid}"></span>
+						</div>
+						</div>
+									
+		</div>
+		
+	</div>
+
+	
+	 댓글 등록 창 
+	<form th:action="|/notice/comment/create/${noticePosting.no}|" th:object="${noticeCommentForm}"  method="post" class="my-3" >
+		 <div th:replace="~{form_errors :: formErrorsFragment}"></div> 
+	<textarea th:field="*{content}" row="6" class="form-control"></textarea>
+	<input type="submit" value="댓글등록" class="btn btn-primary my-2">
+	</form>
+	-->
+
+	 <!-- 공지사항 목록으로 가는 버튼-->
+	 <div class="d-flex justify-content-center">
+	<a th:href="@{/notice/list}" class="btn btn-primary">목록</a></div>
+	
+	</div>
+	
+	
+	<!-- 삭제 스크립트-->
+
+		<script layout:fragment="script" type='text/javascript'>
+		const delete_elements = document.getElementsByClassName("delete");
+		Array.from(delete_elements).forEach(function(element) {
+		    element.addEventListener('click', function() {
+		        if(confirm("정말로 삭제하시겠습니까?")) {
+		            location.href = this.dataset.uri;
+		        };
+		    });
+		});
+		</script>
+	
+		
+	
+		
+	
+	</html>

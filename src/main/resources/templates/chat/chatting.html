@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+		<!--Required meta tags-->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!--bootstrap css-->
+		<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+		<!--Bootstrap js-->
+		<script th:src="@{/bootstrap.min.js}"></script>
+	
+		<style>
+				#messages {
+					margin: auto;
+					padding: 5px;
+					background-color: #f4f4f4;
+					}
+					.left-align {
+						position: relative;
+						margin: 0px; 
+						width: 200px;
+						height: auto;
+						text-align: left;
+						background-color: #e1e1e1;
+						border-radius: 10px;
+						padding: 10px;
+						word-wrap: break-word;
+						font-weight: 400;
+					}
+					.right-align {
+						position: relative;
+						left: 120px;
+						margin: 0px;
+						width: 200px;
+						height: auto;
+						text-align: left;
+						background-color: rgb(254, 214, 209);
+						border-radius: 10px;
+						padding: 10px;
+						word-wrap: break-word;
+						font-weight: 400;
+					}
+
+		
+						img.siz  {
+								border-radius: 50%;
+								width:50px;
+								height: 50px;
+								object-fit: cover;
+								margin-left: auto;
+								margin-right: auto;
+								vertical-align: middle;
+									}
+									
+						a:link, a:visited{
+							text-decoration-line: none;
+						}
+				
+			
+		</style>
+	
+	<title>모모 채팅</title>
+	</head>
+
+
+<body>
+	
+<!-- 전체 div  -->
+	<div class="container my-3" style="width:680px; margin:10px;  ">
+				<!-- 채팅 목록 div -->
+			<div class="row justify-content-start">
+				<div class="col-2" style="width: 40%; text-align: center; ">
+				
+			<!-- (로그인한 닉네임)의 채팅 -->	
+				
+				<h5><div th:text="|${me.membernick}님의 채팅|"></div></h5>			
+	
+	<ul class="list-group" style="width:200px; margin-left: 30px;">
+	  <li class="list-group-item list-group-item-action active d-flex justify-content-center"> 같이먹기 목록 </li>
+	  <th:block th:each="member : ${etMemberList}" >
+	  <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"  >
+		<div style="border-radius: 50%; border: 1px solid #e1e1e1;">
+		<img class="siz" th:src="@{|/img/${member.image.storeFilename}|}" th:if="${member.image != null}">
+		<img class="siz" th:unless="${member.image != null}" src="/img/default_profile.png">
+	</div>
+		
+		<a href="#" th:text="${member.membernick}" th:onclick="openMessageRoom([[${member.memberid}]],[[${member.membernick}]])"></a>
+			  </li> </th:block>
+
+	  </li>
+	</ul>
+	</div>
+	
+<!-- 채팅 -->
+	
+	<div class="col-3" style="width: 60%;" >
+		
+		
+							<br>
+							<br>
+							<h5 style="text-align: center;"><div id="receiverName" ></div></h5>
+							
+							
+			<div id="messageRoom" class="d-none" style=" border: 1px solid #e1e1e1; border-radius: 10px; padding: 0px 10px 0px 10px; background-color: #f4f4f4;" >
+						<br>
+							<!--------------------------대화 입력하고 보여줌 -------------------------->
+			                <div id="messages" style=" height: 350px; overflow-y: auto;" ></div>  
+							<br>
+							
+							<div class="row justify-content-center my-3" >
+								<!------------------------메세지 입력창----------------------------->
+								<div class="col-9">
+			                	<input style="margin-left: 5%;" class="form-control" type="text" id="messageInput" > 
+							<!--	<input class="form-control" type="text" id="messageInput" placeholder="메세지를 입력하세요" > -->
+								</div>
+								<!----------------------메세지 전송 버튼----------------------------->
+								<div class="col">
+								<button class="btn btn-primary " style="margin-left:5%; --bs-btn-padding-y: .60rem; --bs-btn-padding-x: .90rem; --bs-btn-font-size: .75rem; " id="EnterKey" onclick="sendMessage()">전송</button>
+								</div>
+							</div>
+			            </div>
+	</div>
+	
+		</div>
+
+
+		</div>	
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+		<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js}"></script>
+
+				<script th:inline="javascript">
+					
+				
+					
+				    let stompClient = null;
+				    function connect() { // 웹소켓 연결
+				        let socket = new SockJS("/ws");
+				        stompClient = Stomp.over(socket);
+				        stompClient.connect({}, function (frame) {
+				            console.log('Connected: ' + frame);
+				            stompClient.subscribe('/topic/message', function (messageOutput) {
+				                showMessage(JSON.parse(messageOutput.body));
+				            });
+				        });
+				    }
+					
+					let selectMember = null; // 같이먹기 목록에서 선택한 유저 변수 null로 선언
+				    function openMessageRoom(memberid,membernick) { // 유저목록에서 유저를 클릭하면 시작
+						selectMember = memberid;
+						receiverName.innerHTML = membernick;
+				        document.getElementById('messageRoom').classList.remove('d-none'); 
+						fetch(`/chat/message/${selectMember}`) // Controller로 보내기
+						    .then(response => response.json())
+						    .then(messages => {
+						        let messagesDiv = document.getElementById('messages');
+						        messagesDiv.innerHTML = ''; // 기존 메시지 초기화
+						        messages.forEach(message => {
+						            showMessage(message, name);
+						        });
+								console.log('openMessageRoom 메소드 끝');
+						    });
+				    }
+					
+					function sendMessage(){  //전송을 누르면 
+						let content = document.getElementById('messageInput').value;
+						if(content !== ''){
+						stompClient.send("/app/message.sendMessage",{},JSON.stringify({
+							'content':content,
+							'chatroom' : {'member2': {'memberid': selectMember}}
+						}));
+						scrollToBottom(); //스크롤 메소드
+						document.getElementById('messageInput').value = "";  //전송 누르고 입력창 초기화 
+						}
+						
+					
+						
+					}
+				
+					function showMessage(message,memberid){  //메세지 보여주는 메소드 상대는 왼쪽 , 본인은 오른쪽
+						let messages = document.getElementById('messages'); //대화 입력창에서 보낸거
+						let messageSender = document.createElement('div');
+						let messageElement = document.createElement('div');  //메세지 div
+						let sendTime = document.createElement('div');    //보낸시간 div
+						let empty = document.createElement('br'); //공백
+						
+						let messageSendTime = message.sendtime.substring(0,10) +'   '+ message.sendtime.substring(11,16); //보낸시간
+						let alignmentClass = (message.sender.memberid === selectMember) ? 'left-align' : 'right-align';   //메세지 위치 정렬
+						//let font = messageElement.style.fontSize="large"; //메세지 내용 폰트 크기
+						sendTime.style.fontSize="small"; //메세지 폰트 크기
+						sfont = messageSender.style.fontSize ="small";
+						efont = empty.style.fontSize = "xx-large";
+						
+						//보낸 사람
+						messageSender.classList.add(alignmentClass);
+						messageSender.innerText ='['+ message.sender.membernick + ']';
+						
+						//메세지
+						messageElement.classList.add(alignmentClass); 
+						messageElement.innerText =  message.content ;
+						//보낸시간
+						sendTime.classList.add(alignmentClass);
+						sendTime.innerText = messageSendTime;
+						sendTime.style.textAlign="right";
+					
+						//공백
+						empty.classList.add(alignmentClass);
+						
+				
+						
+						messages.appendChild(messageSender);
+						messages.appendChild(messageElement);
+						messages.appendChild(sendTime);
+						messages.appendChild(empty);
+				
+						//보낸 채팅 디자인요소
+						messageSender.style.borderBottomLeftRadius="0%";
+						messageSender.style.borderBottomRightRadius="0%";
+						messageElement.style.borderRadius="0%";
+						sendTime.style.borderTopLeftRadius="0%";
+						sendTime.style.borderTopRightRadius="0%";
+
+						scrollToBottom(); //스크롤 메소드
+						
+					}
+					
+				    window.onload = connect;
+					
+					
+					
+					//스크롤 아래로
+					let scrollable = document.getElementById('messages');
+					function scrollToBottom(){
+						scrollable.scrollTop = scrollable.scrollHeight;	
+								}
+					
+					//엔터로 메세지 입력 가능하도록
+					
+					var inputMessage = document.getElementById('messageInput');
+					inputMessage.addEventListener("keypress",function(event){
+						if(event.key === "Enter"){
+							event.preventDefault();
+							document.getElementById("EnterKey").click();
+						}
+					}
+					);
+					
+					//대화창에 상대 이름 띄우기
+					var receiverName = document.getElementById("receiverName");
+					receiverName.innerHTML = "";
+					
+					//document.getElementById('messages').style.overflow = "hidden";
+
+			
+					
+					
+				</script>
+</body>
+
+</html>

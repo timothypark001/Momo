@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/restList.css}">
+	<title>맛집검색하자</title>
+	
+	</head>
+	<body>
+		<div layout:fragment="content" class="container">
+		
+	
+		<div class="mid">
+			<div class="search_header">
+
+					<!--검색-->
+					<div class="search">
+							<div class="input-group">
+							<input type="text" id="search_kw" class="form-control" th:value="${kw}">
+							<button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+							</div>
+					</div>
+						
+							<form th:action="@{/rest/list/search}" method="get" id="searchForm">
+							<input type="hidden" id="kw" name="kw" th:value="${kw}">
+									   
+							</form>
+		
+			</div>
+			
+			<!--식당사진 리스트-->
+			<div class="list">
+				<div>
+						<hr><h2>						
+						<span th:text="|검색결과가 ${#lists.size(restList)}  건입니다|"></span></h2>
+					</div>
+				
+				<div class="card border-primary mb-3   c" style="max-width: 25rem;" th:each="rest : ${restList}">
+					
+
+					<a th:href="@{|/rest/detail/${rest.no}|}">
+								  <h5 class="card-header ">
+									<span th:text="${rest.name}"></span></h5>
+								 
+								 
+						<!--사진-->	<img th:src="${rest.img}" class="img">
+								  <div class="card-body">
+								    <p class="card-text" th:text="${rest.menu}"></p>
+								  </div>
+								 
+								  
+						<!--태그-->	<div class="card-footer text-muted " >
+									<span  class="tag" th:text="${rest.no}">
+								   태그넣는곳	
+								   </span>
+								  </div>
+					</a>	
+							  
+				</div>
+
+			</div>
+			
+		</div>
+		
+
+		</div>
+		<!--검색 js-->		
+		<script layout:fragment="script" type='text/javascript'>
+
+		const btn_search = document.getElementById("btn_search");
+		btn_search.addEventListener('click', function() {
+		    document.getElementById('kw').value = document.getElementById('search_kw').value;
+		  
+		    document.getElementById('searchForm').submit();
+		});
+		</script>
+		
+	</body>
+	
+	
+	
+</html>
+	

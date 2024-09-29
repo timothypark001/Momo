@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Jason 반환 테스트</title>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoboard.css}">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			
+			function confirmNumber(){
+			    var number1 = $("#number1").val();
+			    var number2 = $("#number2").val();
+
+			    if(number1 == number2){
+			        alert("인증되었습니다.");
+					
+					$("#found_id").css("display","block");
+					
+					checkId();
+
+					
+			    }else{
+			        alert("번호가 다릅니다.");
+			    }
+			}
+			
+			function checkId() {
+				$.ajax({
+					url:"/mail/checkCode",
+					type:"post",
+					crossDomain:true,
+					dataType:"json",
+					data:{
+						"mail" : $("#mail").val()
+					},
+					
+
+					error:function(request, status, error){
+						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					},
+					
+					success: function(data) {
+						alert("성공");
+						alert(data);
+
+						$("#memberid").attr("text", data.memberid)
+					}
+				});
+			}
+
+
+		</script>
+	</head>
+	<body>
+		<div id="mail_number" name="mail_number">
+		  <input type="text" name="mail" id="mail" placeholder="이메일 입력"><br>
+		  <input type="text" name="number1" id="number1" placeholder="인증번호 입력"><br>
+		  <input type="text" name="number2" id="number2" placeholder="인증번호 확인">
+		  <button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()">이메일 인증</button>
+		</div>
+		<div id="found_id" name="found_id" style="display:none">
+			<span>회원님의 아이디는</span>
+			<input name="memberid" id="memberid" class="foundid" value="">
+			<span>입니다.</span>
+			
+		</div>
+		
+		<div>
+		</div>
+		<br>
+		  <input type="text" id="Confirm" name="Confirm" style="display: none" value="">
+			<form method="post" th:action="@{/member/javatest}">
+				<input type="text" name="memberid">
+				<button type="submit">테스트</button>
+			</form>
+			
+
+	</body>
+</html>

@@ -1,0 +1,44 @@
+<html layout:decorate="~{layout}">	
+<div layout:fragment="content" class="container my-3" id='wrapper'>
+	<!-- FAQ 제목 -->
+	<h2 class="border-bottom py-3" th:text="${faq.subject}"></h2>
+		
+	<!-- 작성시간, 작성자(닉네임) -->
+		<div class="d-flex justify-content-start">
+			<div class="badge bg-light text-dark p-2 text-start">
+				<span th:text="${#temporals.format(faq.createDate,'yyyy-MM-dd')}"></span>
+				<span th:if="${faq.author != null}" th:text="${faq.author.membernick}"></span>	
+			</div>
+		</div>
+		
+	<div class="card mb-3" style="max-width: 100%;" >
+
+	  <div class="card-body" >
+	  
+	    <div class="card-text" style="white-space: pre-line;" th:text="${faq.content}"></div>
+		
+		<div class="my-3">
+		<a th:href="@{|/faq/updateFAQ/${faq.no}|}" type="submit"  class="btn btn-sm btn-outline-primary" 		
+			sec:authorize="isAuthenticated()"
+			th:if="${faq.author != null and #authentication.getPrincipal().getUsername() == faq.author.memberid}">
+			수정</a>
+							
+		<a th:href="@{|/faq/deleteFAQ/${faq.no}|}"  type="submit"  class="delete btn btn-sm btn-outline-primary" 
+			sec:authorize="isAuthenticated()"
+		    th:if="${faq.author != null and #authentication.getPrincipal().getUsername() == faq.author.memberid}">
+			삭제</a>	
+		</div>
+	  </div>
+	</div>
+
+
+	 <!-- 공지사항 목록으로 가는 버튼-->
+	 <div class="d-flex justify-content-center">
+		<a th:href="@{/faq/list}" class="btn btn-primary">목록</a></div>
+
+	</div>
+
+
+
+</div>
+</html>

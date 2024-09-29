@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>인증번호 보내기 테스트</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			
+		    function sendNumber(){
+		        $("#mail_number").css("display","block");
+		        $.ajax({
+		            url:"/mail/mail",
+		            type:"post",
+					crossDomain: true,
+		            dataType:"json",
+		            data:{"mail" : $("#mail").val(),
+					"membername" : $("#membername").val()
+				
+				
+					},
+					
+					error:function(request, status, error){
+						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        },
+						
+		            success: function(data){
+		                alert("인증번호 발송");
+			                $("#Confirm").attr("value",data);
+							
+			            }
+			        });
+		    }
+			
+			function confirmNumber(){
+			    var number1 = $("#number").val();
+			    var number2 = $("#Confirm").val();
+
+			    if(number1 == number2){
+			        alert("인증되었습니다.");
+					
+					$("#found_id").css("display","block");
+					
+					checkId();
+
+					
+			    }else{
+			        alert("번호가 다릅니다.");
+			    }
+			}
+			
+			
+			function checkId() {
+				$.ajax({
+					url:"/mail/checkCode",
+					type:"post",
+					crossDomain:true,
+					dataType:"json",
+					data:{
+						"mail" : $("#mail").val()
+					},
+					
+					error:function(request, status, error){
+						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					},
+					
+					success : function(data) {
+						alert("성공");
+						$("#memberid").attr("value", data.memberid)
+					}
+
+				});
+			}
+		
+
+		</script>
+	</head>
+	<body>
+		<div>
+			<span value="안녕"></span>
+		</div>
+		<div id="mail_input" name="mail_input">
+		    <input type="text" name="mail" id="mail" placeholder="이메일 입력"><br>
+			<input type="text" name="membername" id="membername" placeholder="이름 입력">
+		    <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호</button>
+		</div>
+		    <br>
+		<div id="mail_number" name="mail_number" style="display: none">
+		  <input type="text" name="number" id="number" placeholder="인증번호 입력">
+		  <button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()">이메일 인증</button>
+		</div>
+		<div id="found_id" name="found_id" style="display:none">
+			<div id="found_data"></div>
+			<span>회원님의 아이디는</span>
+			<input name="memberid" id="memberid" value="">
+			<span>입니다.</span>
+			
+		</div>
+		<br>
+		  <input type="text" id="Confirm" name="Confirm" style="display: none" value="">
+		  
+		
+	</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+
+		<title>모두 모이자, 모모!!!</title>
+	</head>
+	<body>
+		<div layout:fragment="content" id='wrapper'>
+			<div class="indexImage">
+				<div >
+					<!--검색-->
+					<div class="search ">
+						<div class="search_btn">
+							<div class="input-group input-group-lg " >
+								<input type="text" id="search_kw" class="form-control" th:value="${kw}" placeholder="음식이나 식당을 검색해보세요">
+								<button class="btn btn-secondary" type="button" id="btn_search">찾기</button>
+							</div>
+						</div>
+							<form th:action="@{/rest/list/search}" method="get" id="searchForm">
+							<input type="hidden" id="kw" name="kw" th:value="${kw}">	  
+							</form>	
+					</div>
+				</div>
+			</div>
+			<!--식당사진 리스트-->
+			<div class="new_list">	
+				<div class="list">
+					<div class="new_box">
+						
+					<span class="n">모모 
+						<span style="color:brown"> |  	
+						</span>
+						신규 레스토랑
+					</span>
+					</div>
+					<div class="b">
+						<div class="card border-primary    c"  th:each="rest : ${paging}">
+							<a th:href="@{|/rest/detail/${rest.no}|}" class="a1">
+								<!--사진-->
+								<div class="p">
+								<img th:src="${rest.img}" class="img">
+
+								</div>
+								<div class="card-body" >
+									<div class="card-title">
+										<span class="c_name" th:text="${rest.name}"></span>
+										<span class="badge text-bg-primary" style="font-size: 10px;">New</span>
+									</div>
+									<span class="card-text" th:text="${rest.menu}"></span>
+									<p th:text="${rest.addr}"></p>
+									<p></p>
+								</div><!--card-body-->
+							</a>			  
+						</div>
+					</div><!--b-->
+				</div><!--리스트-->
+				<div class="t">
+					<a class="tt"  th:href="@{/rest/}">
+					모든 레스토랑 확인하기
+					</a>
+				</div>
+			</div><!--식당 리스트-->
+				
+			
+			
+			
+			<!-- 같이먹기 방 리스트-->	
+			<div class="new_list">
+				<div class="list">
+					<div class="new_box">
+					<Span class="n">모모 <span style="color:brown"> |  </span> 신규 같이먹기
+					</Span>
+					</div>
+					<div class="b">
+						<div class="card border-primary    c" th:each="et : ${etpaging}">
+							<a href="#" class="a1">
+															 
+										<!--사진-->	
+								<div class="p">					 
+								<img th:src="${et.rest.img}" class="img">
+									
+								</div>	<!--사진끝-->
+								<div class="card-body" >	
+								<div class="card-title">
+									<span class="c_name"  th:text="${et.ettitle}"></span>	
+									<span style="font-size: 13px;" th:if="${#temporals.format(et.etdate , 'yyyy-MM-dd') <= #calendars.format(#calendars.createNow() , 'yyyy-MM-dd')}">(참여기간 만료)</span>
+								</div>				
+									<!--태그-->						 					  
+									<div>
+									<span class="c_name" th:text="${et.rest.name}"></span>
+										<ul  class="tag">
+											<li>
+												<span th:text="|모집하는 인원수 : ${#lists.size(et.prtmember)}/${et.prtnumber}|"></span>
+											</li>
+																							
+											<li>
+												<span th:text="|신청일 : ${#temporals.format(et.regdate , 'yyyy-MM-dd HH:mm')}|"></span>
+											</li>
+																					
+											<li>
+												<span th:text="|같이먹는날 : ${#temporals.format(et.etdate , 'yyyy-MM-dd HH:mm')}|"></span>
+											</li>
+										</ul>
+									</div><!--태그끝-->
+								</div><!--card-body-->
+							</a>			  
+						</div>
+					</div><!--b-->
+				</div><!--list-->
+					
+				<div class="t">
+					<a class="tt"  th:href="@{/et/list}">
+					모든 같이먹기 확인하기
+					</a>
+				</div>
+			</div><!--같이먹기 리스트-->
+				
+		</div>
+
+			
+				<!--검색 js-->
+						<script layout:fragment="script" type='text/javascript'>
+
+						const btn_search = document.getElementById("btn_search");
+						btn_search.addEventListener('click', function() {
+						    document.getElementById('kw').value = document.getElementById('search_kw').value;
+						  
+						    document.getElementById('searchForm').submit();
+						});//검색
+						
+
+						
+						</script>
+		</body>
+	</html>
+

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+  <head>
+    <meta charset="UTF-8">
+    <title>이럴수가!! 오류가!!!</title>
+  </head>
+  <body layout:fragment="content">
+    <div style="color: red; font-weight: bold; font-size:xx-large">
+      이럴수가!! 4xx 오류가 발생~!!!
+    </div>
+    <div>
+        <p th:text="${timestamp}"></p>
+        <p th:text="${path}"></p>
+        <p th:text="${status}"></p>
+        <p th:text="${message}"></p>
+        <p th:text="${error}"></p>
+        <p th:text="${exception}"></p>
+        <p th:text="${errors}"></p>
+        <p th:text="${trace}"></p>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoCommunity.css}">
+		<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+		<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-bold-straight/css/uicons-bold-straight.css'>
+	</head>
+	<body>
+
+		<div layout:fragment="content" id='wrapper'>
+			<!--전체 영역(width:1280px)-->
+			<div class="frame-c">
+				<!--로고 영역(?)-->
+				<div>
+
+
+				</div>
+				<!--게시판 전체 영역(width:1100px)-->
+				<div class="frame-b">
+					<!--게시물 본문-->
+					  <div class="frame-f">
+						<!--게시물 정보 출력(제목, 작성자, 조회수 등)-->
+						<div class="postingInfoBox underline">
+							<!--게시판 이동 링크-->
+							<div class="postingBoardInfo">
+								<span sec:authorize="hasRole('ROLE_ADMIN')" class="btitle" th:href="@{/inquiryPosting/list}">문의 글<i class="fi fi-sr-caret-right"></i></span>
+								<span sec:authorize="hasRole('ROLE_MEMBER')" class="btitle" th:href="@{/inquiryPosting/myList}">문의 글<i class="fi fi-sr-caret-right"></i></span>
+							</div>
+							<!--게시물 제목-->
+							<div class="postingTitle" align="left">
+								<div class="postingTitle" align="left" th:text="${posting.subject}">
+							</div>
+							<!--게시물 세부 정보-->
+							<div class="frame-d">
+								<!--작성자 정보-->
+								<div class="frame-dl half">
+									<div class="frame-d">
+										<div class="frame-dl" style="width:90px;">
+											<img class="authorImageB" th:if="${posting.author.image != null}" th:src="@{|/img/${posting.author.image.storeFilename}|}" >
+											<img class="authorImageB" th:unless="${posting.author.image != null}" src="/img/default_profile.png" >
+										</div>
+										<div class="frame-dl">
+											<p class="postingAuthorInfo">
+												<span th:text="${posting.membernick}"></span>
+												<span class="badge bg-dark">프로필</span><br>
+												<span th:text="${#temporals.format(posting.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+												<span th:if="${posting.updateDate != null}" th:text="|(최종 수정일 : ${#temporals.format(posting.updateDate, 'yyyy-MM-dd HH:mm')})|"></span>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="frame-dl half right">
+									<p sec:authorize="isAuthenticated()">
+											<span sec:authorize="hasRole('ROLE_MEMBER')" th:if="${posting.author.memberid != null and #authentication.getPrincipal().getUsername() == posting.author.memberid}">
+												<a th:href="@{|/inquiryPosting/update/${posting.no}|}"><button type="botton" class="btn btn-light">수정</button></a>
+												<a th:href="@{|/inquiryPosting/delete/${posting.no}|}"><button type="botton" class="btn btn-light" onclick="alert('정말로 삭제하시겠습니까?')">삭제</button></a>
+											</span>
+											<span sec:authorize="hasRole('ROLE_ADMIN')">
+												<a th:href="@{|/inquiryPosting/update/${posting.no}|}"><button type="botton" class="btn btn-info">수정</button></a>
+												<a th:href="@{|/inquiryPosting/delete/${posting.no}|}" ><button type="botton" class="btn btn-danger" onclick="alert('정말로 삭제하시겠습니까?')">삭제</button></a>
+											</span>
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<!--게시물 본문 출력-->
+						<div class="underline">
+							<!--본문-->
+							<div class="postingContentBox">
+								<pre th:text="${posting.content}"></pre>
+							</div>
+						</div>
+                          </form>
+						<!--댓글 정보 영역(개수 출력)-->
+						<div class="commentInfoBox f4f4f4">
+							댓글이 <strong th:text="${#lists.size(posting.commentList)}"></strong>개 작성되었습니다.</a>
+						</div>
+
+						<!--댓글 노출 영역-->
+						<div>
+								<!--댓글 반복 출력 영역-->
+								<form th:action="@{|/inquiryComment/update/${posting.no}/${comment.no}|}" th:object="${inquiryCommentForm}" method="post">
+									<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+								<div>
+									<th:block  th:field="${comment}">
+										<div class="commentBox frame-d">
+											<!--댓글 정보 영역-->
+											<table style="width:100%;">
+												<tr>
+													<td style="width:70px;vertical-align:top;" rowspan="4">
+														<img class="authorImage" th:if="${comment.author.image != null}" th:src="@{|/img/${comment.author.image.storeFilename}|}" >
+														<img class="authorImage" th:unless="${comment.author.image != null}" src="/img/default_profile.png" >
+													</td>
+													<td style="width:40%;text-align:left;" class="commentNickW">
+														<span th:text="${comment.membernick}"></span>
+														<span class="badge bg-dark">관리자</span>
+													</td>
+													<td style="text-align:right;">
+														<th:block sec:authorize="isAuthenticated()"
+														 th:if="${comment.author.memberid != null and #authentication.getPrincipal().getUsername() == comment.author.memberid}">
+														 <a th:href="@{|/inquiryComment/update/${posting.no}/${comment.no}|}"><button type="botton" class="btn btn-info">수정</button></a>
+														 <a th:href="@{|/inquiryComment/delete/${posting.no}/${comment.no}|}"><button type="botton" class="btn btn-danger" onclick="alert('정말로 삭제하시겠습니까?')">삭제</button></a>
+														</th:block>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2">
+														<textarea th:field="*{content}" rows="4" style="width:100%"></textarea>
+													</td>
+												</tr>
+												<tr class="commentInfo-s">
+													<td style="width:40%;text-align: left;">
+														<span th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+														<span th:if="${comment.updateDate != null}" 
+														th:text="|(최종 수정일 : ${#temporals.format(comment.updateDate, 'yyyy-MM-dd HH:mm')})|"></span>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</th:block> 
+								</div>
+								</form>
+						</div>			
+					</div>
+					<!--버튼 영역-->
+					<div class="frame-d">
+						<div class="frame-dl half left">
+			                <p></p>
+						</div>
+						<div class="frame-dl half right">
+							<p sec:authorize="isAuthenticated()">
+								<a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{/inquiryPosting/create}"><button type="button" class="btn btn-primary">글쓰기</button></a>
+								<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/inquiryPosting/list}"><button type="button" class="btn btn-secondary">목록</button></a>
+								<a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{/inquiryPosting/myList}"><button type="button" class="btn btn-secondary">목록</button></a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+      </div>
+   </body>
+</html>

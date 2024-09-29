@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>메일 보내기 테스트</title>
+	</head>
+	<body>
+		
+		<div>
+			
+			<form method="post" th:action="@{/mail/test}">
+			    <input type="text" name="mailAddress" placeholder="받는 사람 입력"><br>
+			    <input type="text" name="subject" placeholder="제목"><br>
+			    <textarea name= "content" cols="10" rows="10"></textarea><br>
+			    <input type="submit" value="전송">
+				
+			</form>
+			
+		</div>
+
+		<div sec:autorize="isAnonymous()">
+			로그인 안한 사용자!!!
+		</div>
+
+		<div sec:authorize="isAuthenticated()">
+			로그인한 사용자!!!
+		</div>
+		
+		
+		
+		</script>
+	</body>
+</html>

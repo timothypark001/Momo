@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+  <head>
+    <title>모두 모이자, 모모 : 마이페이지</title>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoMember.css}">
+
+  </head>
+  <body>
+    <!--전체 영역-->
+    <div layout:fragment="content" id="wrapper">
+      <!--상단 영역-->
+      <div>
+  
+      </div>
+      <!--하단 영역-->
+      <div>
+        <table width="100%">
+          <tr>
+            <!--좌측 메뉴 영역-->
+            <td width="230px">
+              <div class="frame-l2">
+                <div class="smlist">
+                  <ul>
+                    <li class="titleMenu">내 활동</li>
+                    <li>내 게시물</li>
+                    <li>내 댓글</li>
+                    <li><a th:href="@{/friend/list}">내 친구</a></li>
+                    <li>내 랭킹</li>
+                  </ul>
+                  
+                </div>
+                <div class="smlist">
+                  <ul>
+                    <li class="titleMenu">내 가게</a></li>
+                    <li>내 리뷰</li>
+                    <li>내 찜</li>
+                    <li>내 같이 먹기</li>
+                  </ul>
+                  
+                </div>
+                <div class="smlist">
+                  <ul>
+                    <li class="titleMenu">회원정보</a></li>
+                    <li><a th:href="@{/member/modify}">회원정보 수정</a></li>
+                    <li><a th:href="@{/mypage/profile}">프로필 보기</a></li>
+                  </ul>
+                  
+                </div>
+                <div class="smlist">
+                  <ul>
+                    <li class="titleMenu">고객센터</li>
+                    <li><a th:href="@{/notice/list}">공지사항</a></li>
+                    <li><a th:href="@{/faq/list}">자주 묻는 질문</a></li>
+                    <li><a th:href="@{/inquiryPosting/myList}">문의하기</a></li>
+                  </ul>
+                  
+                </div>
+                <div class="smlist last">
+                  <ul>
+                    <li><a th:href="@{/member/drop}">회원탈퇴</li>
+                  </ul>
+                  
+                </div>
+              </div>
+            </td>
+            <!--우측 메뉴 영역-->
+            <td style="vertical-align: top;">
+              <div class="frame-main">
+                메인 영역입니다
+              </div>
+            </td>
+          </tr>
+        </table>
+  
+      </div>
+
+
+    </div>
+
+  </body>
+</html>

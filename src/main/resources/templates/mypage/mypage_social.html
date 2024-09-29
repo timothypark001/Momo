@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout_mypage}">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" defer th:src="@{/js/momoMypage.js}"></script>
+  </head>
+  <body>
+
+    <div layout:fragment="mypageContent">
+      <!--전체 영역-->
+      <div class="frame-dvd">
+				<div class="infoTitleB">
+					소셜 회원가입 회원 전용 회원정보 수정<br>
+				</div>
+        <!--회원정보 노출 및 수정(좌)-->
+        <form method="post" th:action="@{/member/social}">
+        <div class="frame-dvd-l infoBorder">
+          <div class="myModify titleMenu">
+            선택 입력 항목
+          </div>
+            <div class="myModify-content">
+              <div class="card border-primary mb-3">
+                <div class="card-header text-primary"><strong><i class="fi fi-br-location-exclamation"></i> 소셜 로그인 회원의 회원정보 입력</strong></div>
+                <div class="card-body">
+                  <p class="card-text">일반 회원가입 없이 소셜 로그인을 통해 가입하신 경우,
+                     <strong>아이디와 닉네임은 임의</strong>로 지정됩니다.<br>
+                     이후 본 메뉴를 통해 일반 아이디와 이름(실명), 비밀번호를 설정하시면 이후 일반 아이디로도 로그인하실 수 있습니다.<br>
+                      아이디와 이름(실명)은 수정이 불가한 정보로 <strong>소셜 가입 회원에 한하여 최초 1회만 수정 가능</strong>합니다.</p>
+                </div>
+              </div>
+            </div>
+            <div class="myModify">
+              <div class="myModify-content">
+                <div class="form-floating">
+                  <input type="text" class="form-control" name="membernick" id="membernick"
+                  autocomplete="off" th:value="${member.membernick}">
+                  <label for="floatingPassword">닉네임</label>
+                </div>
+              </div>
+            </div>
+            <div class="myModify">
+              <div class="myModify-content">
+                <div class="form-floating">
+                  <input type="hidden" name="mail" id="mail" th:value="${member.email}">
+                  <input type="email" class="form-control"  
+                  autocomplete="off" disabled th:value="${member.email}">
+                  <label for="floatingPassword">이메일(email@example.com)</label>
+                </div>
+              </div>
+              <div class="myModify-icon titleMenu">
+              </div>
+            </div>
+        </div>
+        <!--회원정보 노출 및 수정(우)-->
+        <div class="frame-dvd-l">
+          <div class="myModify-r titleMenu">
+            필수 입력 항목
+          </div>
+          <div class="myModify-r">
+            <div class="myModify">
+
+              <div class="myModify-content">
+                <div class="form-floating">
+                  <input type="text" class="form-control" name="memberid" id="memberid"
+                  autocomplete="off" th:value="${member.memberid}">
+                  <label for="floatingPassword">아이디 : 아이디는 최초 1회만 설정할 수 있습니다</label>
+                </div>
+              </div>
+            </div>
+            <div class="myModify">
+              <div class="myModify-content">
+                <div class="form-floating">
+                  <input type="text" class="form-control"  name="membername" id="membername"
+                  autocomplete="off" th:value="${member.membername}">
+                  <label for="floatingPassword">이름(실명) : 이름은 최초 1회만 설정할 수 있습니다</label>
+                </div>
+              </div>
+            </div>
+              <div class="myModify-btn">
+                <div class="form-floating">
+                  <input type="password" class="form-control" name="modifyPw3" id="modifyPw3" autocomplete="off">
+                  <label for="floatingInput">비밀번호 : 비밀번호 지정 시 일반 로그인도 가능합니다.</label>
+                </div>
+              </div>
+              <div class="myModify-btn">
+                <div class="form-floating">
+                  <input type="password" class="form-control" name="modifyPw4" id="modifyPw4" autocomplete="off">
+                  <label for="floatingPassword">비밀번호 확인</label>
+                </div>
+              </div>
+              <div class="myModify-btn" name="checkResult" id="checkResult">
+                <div class="d-grid gap-2">
+                  <button class="btn btn-lg btn-secondary" type="button" onclick="confirmNumber()">비밀번호 확인</button>
+                </div>
+              </div>
+              <div class="myModify-btn" name="modifySocial" id="modifySocial" style="display: none;">
+                <div class="d-grid gap-2">
+                  <button class="btn btn-lg btn-primary" type="submit" style="">회원정보 입력</button>
+                </div>
+              </div>
+
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

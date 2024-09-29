@@ -1,0 +1,36 @@
+.aboutdiv{
+	
+	/*border: 3px solid darkblue;*/
+	padding: 50px;
+	margin-right: 50px;
+	margin-left: 50px;
+	width: 1500px;
+	margin: auto;
+	font-family: 'HancomMalangMalang-Regular';
+	
+}
+
+.about-inner-div{
+	
+	/*height: 150px;*/
+	/*border: 2px solid palevioletred;*/
+	margin: 5px;
+	padding: 10px;
+}
+
+
+.siz{  /* 사진 */
+	display: block;
+	width: 30px;
+	object-fit: cover;
+	height: auto;
+	border-radius: 3%;
+	}
+	
+.textDiv{
+/*border: 2px solid deeppink;*/
+padding: 3px;
+margin: 10px;
+font-weight: bold;		
+	
+}

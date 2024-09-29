@@ -1,0 +1,66 @@
+<html layout:decorate="~{layout_mypage}">
+	
+<div layout:fragment="mypageContent">
+	<style>
+		img.siz {
+			border-radius: 50%;
+			width:150px;
+			height: 150px;
+			object-fit: cover;
+			vertical-align: middle;
+		}
+	</style>
+	
+	<div>
+			<!--콘텐츠 영역-->
+			<div>	
+				<!--콘텐츠 세부 영역-->
+					<div class="frame-dvd my-5">
+					   <span style="font-size: 20px; font-weight:bold;">내 랭킹</span>
+					    <center>
+					    <div class="card my-5" style="width:40%">
+							<div class="card-body">
+								<img class="siz" th:if="${member.image != null}" th:src="@{|/img/${member.image.storeFilename}|}">
+								<img class="siz" th:unless="${member.image != null}" src="/img/default_profile.png">
+							</div>	
+							<div class="card-footer">
+								<span style="font-size: 20px; font-weight:bold;" th:text="|${member.membernick}|"></span>
+								<span th:text="|(${myRank}위)|"></span>
+							</div>
+   						</div>
+						</center>
+						<div style="display: flex;" class="my-5">
+					       <div class="card" style="width:20%; margin-right: 100px; margin-left: 88px;">
+					          <div class="card-body" align="center">
+						         <span th:text="|${totalMyDdabong}개|"></span>
+					          </div>
+							  <div class="card-footer" align="center">
+								 <span>받은 추천수</span>
+							  </div>
+					       </div>
+					       <div class="card" style="width:20%;margin-right: 100px;">
+					          <div class="card-body" align="center">
+						         <span th:text="|${totalMyNope}개|"></span>
+					          </div>
+							  <div class="card-footer" align="center">
+								 <span>받은 비추천수</span>
+							  </div>
+					       </div>
+					       <div class="card" style="width:20%">
+					           <div class="card-body" align="center">	
+						         <span th:text="|${myETcount}번|"></span>
+					           </div>
+							   <div class="card-footer" align="center">
+								  <span>총 같이먹기 횟수</span>
+							   </div>
+					       </div>
+						</div>
+					</div>	
+			</div>		
+	</div>	
+
+
+	
+	
+</div>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoSignup.css}">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script type="text/javascript" defer th:src="@{/js/momoFindid.js}"></script>
+		<title>모모 아이디/비밀번호 찾기</title>
+	</head>
+	<body>
+		<!--전체 영역-->
+		<div layout:fragment="content" id="wrapper">
+			<!--아이디/비밀번호 찾기 전체 프레임-->
+			<div class="frame-t2">
+				<!--(좌측)로고/안내 영역-->
+				<div class="frame-l">
+					<div>
+						<p class="infoTitle">
+							모두 모이자, 모모
+						</p>
+						<p class="infoContent">
+							모모 <strong>아이디 찾기</strong> 메뉴입니다.<br>
+							아이디가 기억나지 않는 경우에는
+							본 메뉴에서 확인하시기 바랍니다.
+						</p>
+					</div>
+					<div id="found_id" name="found_id" class="infoFound" style="display: none;">
+						<input type="text" id="Confirm" name="Confirm" style="display: none" value="">
+						<div id="found_data"></div>
+						<p>
+							회원님의 아이디는<br>
+							<input name="memberid" id="memberid" class="infoFoundid" disabled value=""><br>
+							입니다.<br>
+						</p>
+						<a th:href="@{/member/login}"><button type="button" class="btn btn-sm btn-lg btn-primary">로그인 하러 가기</button></a>
+					</div>
+				</div>
+				<!--(우측)사용자 입력 영역-->
+				<div class="frame-r">
+					<div>
+						<div>
+							<span class="searchTitle"><i class="fi fi-sr-member-search"></i> 아이디 찾기</span></div>
+							<div class="form-floating my-3">
+								<input type="email" class="form-control" name="mail" id="mail" placeholder="이메일 주소(name@example.com)">
+								<label for="floatingInput">이메일 주소(name@example.com)</label>
+							</div>
+							<div class="form-floating my-3">
+								<input type="text" class="form-control" name="membername" id="membername" placeholder="이름(실명)" autocomplete="off">
+								<label for="floatingPassword">이름(실명)</label>
+							</div>
+							<div class="d-grid gap-2">
+								<button type="button" name="sendBtn" id="sendBtn" onclick="sendNumber()" class="btn btn-lg btn-primary">인증번호 보내기</button>
+							</div>
+					</div>
+					<div id="mail_number" name="mail_number" style="display: none;">
+						<div class="form-floating my-3">
+							<input type="text" name="number" id="number" class="form-control" placeholder="인증번호 입력">
+							<label for="floatingInput">인증번호</label>
+						</div>
+						<div class="d-grid gap-2">
+							<button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()" class="btn btn-lg btn-secondary">인증번호 확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+
+</html>

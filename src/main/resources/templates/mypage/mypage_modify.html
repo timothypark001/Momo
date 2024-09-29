@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout_mypage}">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" defer th:src="@{/js/momoMypage.js}"></script>
+  </head>
+  <body>
+
+    <div layout:fragment="mypageContent">
+      <!--전체 영역-->
+      <div class="frame-dvd">
+        <div class="infoTitleB">
+          회원정보, 비밀번호 수정
+        </div>
+        <!--회원정보 노출 및 수정(좌)-->
+        <div class="frame-dvd-l infoBorder">
+          <div class="myModify titleMenu">
+            회원정보 수정
+          </div>
+          <form method="post" th:action="@{/member/modifyMember}">
+            <div class="myModify">
+              <div class="myModify-content">
+                <div class="form-floating">
+                  <input type="hidden" name="memberid" id="memberid" th:value="${member.memberid}">
+                  <input type="text" class="form-control" 
+                  autocomplete="off" disabled th:value="${member.memberid}">
+                  <label for="floatingPassword">아이디 : 아이디는 변경할 수 없습니다</label>
+                </div>
+              </div>
+            </div>
+            <div class="myModify">
+              <div class="myModify-content">
+                <div class="form-floating">
+                  <input type="hidden" name="membername" id="membername" th:value="${member.membername}">
+                  <input type="text" class="form-control" 
+                  autocomplete="off" disabled th:value="${member.membername}">
+                  <label for="floatingPassword">이름(실명) : 이름은 변경할 수 없습니다</label>
+                </div>
+              </div>
+            </div>
+            <div class="myModify">
+              <div class="myModify-content">
+                <div class="form-floating">
+                  <input type="text" class="form-control"  
+                  autocomplete="off" name="membernick" th:value="${member.membernick}">
+                  <label for="floatingPassword">닉네임</label>
+                </div>
+              </div>
+            </div>
+            <div class="myModify">
+              <div class="myModify-content">
+                <div class="form-floating">
+                  <input type="email" class="form-control"  
+                  autocomplete="off" name="email" th:value="${member.email}">
+                  <label for="floatingPassword">이메일(email@example.com)</label>
+                </div>
+              </div>
+              <div class="myModify-icon titleMenu">
+                <i class="fi fi-br-location-exclamation" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right"
+                data-bs-content="소셜(구글, 네이버)로그인 회원은 이메일 변경 시 기존 로그인 연동은 해제되며, 기존 소셜로그인 계정 사용 시 신규 회원 가입됩니다." 
+                data-bs-original-title="Popover Title" aria-describedby="popover92027"></i>
+              </div>
+            </div>
+            <div class="myModify-btn">
+              <div class="d-grid gap-2 mt-6">
+                <button type="submit" class="btn btn-lg btn-primary" onclick="modifyFormCheck()">회원정보 수정</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!--회원정보 노출 및 수정(우)-->
+        <div class="frame-dvd-l">
+          <div class="myModify-r titleMenu">
+            비밀번호 수정
+  
+          </div>
+          <div class="myModify-r">
+              <div class="myModify-btn">
+                <div class="form-floating">
+                  <input type="password" class="form-control" name="modifyPw1" id="modifyPw1" autocomplete="off">
+                  <label for="floatingInput">비밀번호</label>
+                </div>
+              </div>
+              <div class="myModify-btn">
+                <div class="form-floating">
+                  <input type="password" class="form-control" name="modifyPw2" id="modifyPw2" autocomplete="off">
+                  <label for="floatingPassword">비밀번호 확인</label>
+                </div>
+              </div>
+              <div class="myModify-btn">
+                <div class="d-grid gap-2">
+                  <button class="btn btn-lg btn-primary" type="button" onclick="resetPw2()">비밀번호 변경</button>
+                </div>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

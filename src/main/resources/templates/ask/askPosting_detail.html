@@ -1,0 +1,419 @@
+<html layout:decorate="~{layout}">
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoCommunity.css}">
+		<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+		<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-bold-straight/css/uicons-bold-straight.css'>
+	</head>
+	
+	<body>
+	<div layout:fragment="content" id='wrapper'>
+		<div class="frame-c">
+			<div class="frame-b">
+				<div class="frame-f">
+					<!--게시물 정보 출력(제목, 작성자, 조회수 등)-->
+					<div class="postingInfoBox underline">
+						<!--게시판 이동 링크-->
+						<div class="postingBoardInfo">
+							질문과답변 <i class="fi fi-sr-caret-right"></i>
+						</div>
+						<!--게시물 제목-->
+						<div class="postingTitle" align="left" th:text="${askPosting.subject}">
+						</div>
+						<!--게시물 세부 정보-->
+						<div class="frame-d">
+							<!--작성자 정보-->
+							<div class="frame-dl half">
+								<div class="frame-d">
+									<div class="frame-dl" style="width:90px;">
+										<img class="authorImageB" th:if="${askPosting.author.image != null}" th:src="@{|/img/${askPosting.author.image.storeFilename}|}" >
+										<img class="authorImageB" th:unless="${askPosting.author.image != null}" src="/img/default_profile.png" >
+									</div>
+									<div class="frame-dl postingAuthorInfo">
+										<span th:text="${askPosting.author.membernick}"></span>
+										<th:block sec:authorize="isAuthenticated()">
+											<span class="badge bg-dark" 
+											th:if="${askPosting.author.memberid != null and #authentication.getPrincipal().getUsername() == askPosting.author.memberid}">나</span>
+											<a href="#" data-bs-toggle="modal" th:attr="data-bs-target=${'#profile'+ askPosting.author.no}">
+											<span class="badge bg-dark" 
+											th:if="${askPosting.author.memberid != null and #authentication.getPrincipal().getUsername() != askPosting.author.memberid}">프로필</span></a>
+											<span class="badge salmon makeFriend" th:if="${!#lists.contains(member.friend, askPosting.author)} and 
+												${#authentication.getPrincipal().getUsername() != askPosting.author.memberid}"
+											 th:data-uri="@{|/friend/create/${askPosting.author.no}|}">친구 추가
+											</span>
+											<span class="badge bg-success deleteFriend" th:if="${#lists.contains(member.friend, askPosting.author)}"
+											th:data-uri="@{|/friend/delete/${askPosting.author.no}|}">내친구</span>
+										</th:block>
+										<br>
+										<span class="postingRankingInfo" th:text="|조회수(${askPosting.cnt})|"></span>
+										<span class="postingRankingInfo" th:text="${#temporals.format(askPosting.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+										<span class="postingRankingInfo" th:if="${askPosting.updateDate != null}" th:text="|(최종 수정일 : ${#temporals.format(askPosting.updateDate, 'yyyy-MM-dd HH:mm')})|"></span>
+									</div>
+								</div>
+							</div>
+							<!--게시물 정보-->
+							<div class="frame-dl half right">
+								<p class="postingRankingInfo" sec:authorize="isAuthenticated()">
+									<span th:if="${askPosting.author.memberid != null and #authentication.getPrincipal().getUsername() == askPosting.author.memberid}">
+										<a th:href="@{|/askPosting/update/${askPosting.no}|}"><button type="button" class="btn btn-outline-secondary btn-sm me-2">수정</button></a>
+										<button type="button" class="btn btn-outline-secondary btn-sm delete" th:data-uri="@{|/askPosting/delete/${askPosting.no}|}">삭제</button>
+									</span>
+									<span sec:authorize="hasRole('ROLE_ADMIN')">
+										<a th:href="@{|/askPosting/update/${askPosting.no}|}"><button type="button" class="btn btn-outline-info btn-sm me-2">수정</button></a>
+										<button type="button" class="btn btn-outline-danger btn-sm delete" th:data-uri="@{|/askPosting/delete/${askPosting.no}|}">삭제</button>
+									</span>
+								</p>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					<!-- 프로필 보기 Modal -->	
+					<div class="modal"  th:attr="id='profile' +${askPosting.author.no}"   tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+																		
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+													
+									<h1 class="modal-title fs-5" id="exampleModalLabel">
+										<span th:text="|${askPosting.author.membernick}님의 프로필|"></span>	
+									</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body" >
+									<!-- 프로필 사진 -->
+									<div class="d-flex justify-center" >
+										<img class="profileImage" th:src="@{|/img/${askPosting.author.image.storeFilename}|}" th:if="${askPosting.author.image != null}">
+										<img class="profileImage" th:unless="${askPosting.author.image != null}" src="/img/default_profile.png" >
+									</div>
+									<br>								
+									<ul class="list-group" >
+										<li class="list-group-item d-flex justify-content-between align-items-center">mbti
+											<span th:if="${askPosting.author.profile != null}" th:text="${askPosting.author.profile.mbti}"></span>
+											<span th:if="${askPosting.author.profile.mbti == ''}" th:text="미입력"></span>	
+										</li>
+										<li class="list-group-item d-flex justify-content-between align-items-center">성별
+											<span th:if="${askPosting.author.profile != null}" th:text="${askPosting.author.profile.gender}"></span>
+											<span th:if="${askPosting.author.profile.gender == null}" th:text="미입력"></span>	
+										</li>
+										<li class="list-group-item d-flex justify-content-between align-items-center">자기소개
+											<span th:if="${askPosting.author.profile != null}" th:text="${askPosting.author.profile.content}"></span>
+											<span th:if="${askPosting.author.profile.content == ''}" th:text="미입력"></span>	
+										</li>
+									</ul>
+								</div>															
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!--게시물 본문 출력-->
+					<div class="underline">
+						<!--본문-->
+						<div class="postingContentBox">
+							<div th:text="${askPosting.content}"></div>
+						</div>
+
+						<!--추천과 비추천-->
+						<div class="ddabongBox">
+							<table style="width:100%;">
+								<tr>
+									<th:block sec:authorize="isAnonymous()">
+										<td style="width:50%;border-right:1px solid #e1e1e1;">
+											<i class="fi fi-sr-thumbs-up"></i><br>
+											<span th:text="${askPosting.ddabong.size()}" class="ddabongText"></span>
+										</td>
+										<td>
+											<i class="fi fi-sr-thumbs-down"></i><br>
+											<span th:text="${askPosting.nope.size()}" class="ddabongText"></span>
+										</td>
+									</th:block>
+								
+									<th:block sec:authorize="isAuthenticated()">
+										<td style="width:50%;border-right:1px solid #e1e1e1;" th:if="${#sets.contains(askPosting.ddabong, #authentication.getPrincipal.getUsername())}">
+											<i href="javascript:void(0);" class="ddabong fi fi-sr-thumbs-up text-success"
+											th:data-uri="@{|/askPosting/voteDdabong/${askPosting.no}|}">
+											</i><br>
+											<span th:text="${askPosting.ddabong.size()}" class="ddabongText"></span>
+										</td>
+										<td style="width:50%;border-right:1px solid #e1e1e1;" th:if="${!#sets.contains(askPosting.ddabong, #authentication.getPrincipal.getUsername())}">
+											<i href="javascript:void(0);" class="ddabong fi fi-sr-thumbs-up"
+											th:data-uri="@{|/askPosting/voteDdabong/${askPosting.no}|}">
+											</i><br>
+											<span th:text="${askPosting.ddabong.size()}" class="ddabongText"></span>
+										</td>
+										<td th:if="${#sets.contains(askPosting.nope, #authentication.getPrincipal.getUsername())}">
+											<i href="javascript:void(0);" class="nope fi fi-sr-thumbs-down text-danger"
+											th:data-uri="@{|/askPosting/voteNope/${askPosting.no}|}">
+											</i><br>
+											<span th:text="${askPosting.nope.size()}" class="ddabongText"></span>
+										</td>
+										<td th:if="${!#sets.contains(askPosting.nope, #authentication.getPrincipal.getUsername())}">
+											<i href="javascript:void(0);" class="nope fi fi-sr-thumbs-down"
+											th:data-uri="@{|/askPosting/voteNope/${askPosting.no}|}">
+											</i><br>
+											<span th:text="${askPosting.nope.size()}" class="ddabongText"></span>
+										</td>
+									</th:block>
+								</tr>
+							</table>
+						</div>					
+					</div>
+					
+					<!--댓글 정보 영역(개수 출력)-->
+					<div class="commentInfoBox f4f4f4">
+						<span th:if="${#lists.size(askPosting.askCommentList) > 0}">
+							댓글이 <strong th:text="${#lists.size(askPosting.askCommentList)}"></strong>개 작성되었습니다.</a>
+						</span>
+						<span th:if="${#lists.size(askPosting.askCommentList) == 0}">
+							작성된 댓글이 없습니다. 댓글을 작성해주세요.</a>
+						</span>
+					</div>
+
+					<!--댓글 노출 영역-->
+					<div>
+							<!--댓글 반복 출력 영역-->
+							<div>
+								<th:block th:each="askComment : ${askPosting.askCommentList}" th:field="${askComment}">
+									
+									<!-- 프로필 보기 Modal -->	
+									<div class="modal"  th:attr="id='profile' +${askComment.author.no}"   tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+																			
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+											
+													<h1 class="modal-title fs-5" id="exampleModalLabel">
+														<span th:text="|${askComment.author.membernick}님의 프로필|"></span>	
+													</h1>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body" >
+													<!-- 프로필 사진 -->
+													<div class="d-flex justify-center" >
+														<img class="profileImage" th:src="@{|/img/${askComment.author.image.storeFilename}|}" th:if="${askComment.author.image != null}">
+														<img class="profileImage" th:unless="${askComment.author.image != null}" src="/img/default_profile.png" >
+													</div>
+													<br>								
+													<ul class="list-group" >
+														<li class="list-group-item d-flex justify-content-between align-items-center">mbti
+															<span th:if="${askComment.author.profile != null}" th:text="${askComment.author.profile.mbti}"></span>
+															<span th:if="${askComment.author.profile.mbti == ''}" th:text="미입력"></span>	
+														</li>
+														<li class="list-group-item d-flex justify-content-between align-items-center">성별
+															<span th:if="${askComment.author.profile != null}" th:text="${askComment.author.profile.gender}"></span>
+															<span th:if="${askComment.author.profile.gender == null}" th:text="미입력"></span>	
+														</li>
+														<li class="list-group-item d-flex justify-content-between align-items-center">자기소개
+															<span th:if="${askComment.author.profile != null}" th:text="${askComment.author.profile.content}"></span>
+															<span th:if="${askComment.author.profile.content == ''}" th:text="미입력"></span>	
+														</li>
+													</ul>
+												</div>															
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								
+									<div class="commentBox frame-d">
+										<!--댓글 정보 영역-->
+										<table style="width:100%;">
+											
+											<tr>
+												<td style="width:70px;vertical-align:top;" rowspan="4">
+													<img class="authorImage" th:if="${askComment.author.image != null}" th:src="@{|/img/${askComment.author.image.storeFilename}|}" >
+													<img class="authorImage" th:unless="${askComment.author.image != null}" src="/img/default_profile.png" ><br>
+												</td>
+												<td style="width:40%;text-align:left;" class="commentNickW">
+													<span th:text="${askComment.membernick}"></span>
+													<th:block sec:authorize="isAuthenticated()">
+														<span class="badge bg-dark" 
+														th:if="${askComment.author.memberid != null and #authentication.getPrincipal().getUsername() == askComment.author.memberid}">나</span>
+														<a href="#" data-bs-toggle="modal" th:attr="data-bs-target=${'#profile'+ askComment.author.no}">
+														<span class="badge bg-dark"
+														th:if="${askComment.author.memberid != null and #authentication.getPrincipal().getUsername() != askComment.author.memberid}">프로필</span></a>
+														<span class="badge salmon makeFriend" th:if="${!#lists.contains(member.friend, askComment.author)
+														and #authentication.getPrincipal().getUsername() != askComment.author.memberid}"
+														th:data-uri="@{|/friend/create/${askComment.author.no}|}">친구 추가</span>
+														<span class="badge bg-success deleteFriend" th:if="${#lists.contains(member.friend, askComment.author)}"
+														th:data-uri="@{|/friend/delete/${askComment.author.no}|}">내친구</span>
+													</th:block>
+												</td>
+												<td style="text-align:right;">
+													<th:block sec:authorize="isAnonymous()">
+													 <i class="fi fi-sr-thumbs-up"></i>
+													 <span th:text="|추천 ${askComment.ddabong.size()}|"></span>
+													 <i class="fi fi-sr-thumbs-down"></i>
+													 <span th:text="|비추 ${askComment.nope.size()}|"></span>
+													</th:block>
+													<th:block sec:authorize="isAuthenticated()">
+													 <i class="fi fi-sr-thumbs-up text-success ddabong" href="javascript:void(0);"
+													 th:data-uri="@{|/askComment/voteDdabong/${askComment.no}|}"
+													 th:if="${#sets.contains(askComment.ddabong, #authentication.getPrincipal.getUsername())}"></i>
+													 <i class="fi fi-sr-thumbs-up ddabong" href="javascript:void(0);"
+													 th:data-uri="@{|/askComment/voteDdabong/${askComment.no}|}"
+													 th:if="${!#sets.contains(askComment.ddabong, #authentication.getPrincipal.getUsername())}"></i>
+													 <span>추천 </span>
+													 <span th:text="(${#sets.isEmpty(askComment.ddabong)} ? 0 : ${askComment.ddabong.size()})"></span>
+													 <a ></a>
+													 <i class="fi fi-sr-thumbs-down text-danger nope" href="javascript:void(0);"
+													 th:data-uri="@{|/askComment/voteNope/${askComment.no}|}"
+													 th:if="${#sets.contains(askComment.nope, #authentication.getPrincipal.getUsername())}"></i>
+													 <i class="fi fi-sr-thumbs-down nope" href="javascript:void(0);"
+													 th:data-uri="@{|/askComment/voteNope/${askComment.no}|}"
+													 th:if="${!#sets.contains(askComment.nope, #authentication.getPrincipal.getUsername())}"></i>
+													 <span>비추 </span>
+													 <span th:text="(${#sets.isEmpty(askComment.nope)} ? 0 : ${askComment.nope.size()})"></span>
+													</th:block>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<div class="commentContentBox" th:text="${askComment.content}"></div>
+												</td>
+											</tr>
+											<tr class="commentInfo-s">
+												<td style="width:40%;text-align: left;">
+													<span th:text="${#temporals.format(askComment.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+													<span th:if="${askComment.updateDate != null}" 
+													th:text="|(최종 수정일 : ${#temporals.format(askComment.updateDate, 'yyyy-MM-dd HH:mm')})|"></span>
+												</td>
+												<td style="text-align: right;">
+													<a th:href="@{|/askComment/update/${askComment.no}|}" class="btn btn"
+													sec:authorize="isAuthenticated()"
+													th:if="${askComment.author != null and #authentication.getPrincipal().getUsername() == askComment.author.memberid}">
+													<button type="button" class="btn btn-outline-secondary btn-sm me-2">수정</button></a>
+													<a class="delete fw-bold" sec:authorize="isAuthenticated()" th:if="${askComment.author.memberid != null and #authentication.getPrincipal().getUsername() == askComment.author.memberid}"
+													th:data-uri="@{|/askComment/delete/${askComment.no}|}" href="javascript:void(0);">
+													<button type="button" class="btn btn-outline-secondary btn-sm me-2">삭제</button></a>
+												</td>
+											</tr>
+											
+										
+											
+										</table>
+									</div>
+								</th:block> 
+							</div>
+					</div>
+					
+					<!--댓글 쓰기 영역-->
+					<div sec:authorize="isAuthenticated()">
+						<!--댓글 폼 영역-->
+						<div class="frame-comment">
+							<!--닉네임 영역-->
+							<div class="commentNickW">
+								<span th:text="${#authentication.getPrincipal().getMembernick()}"></span>
+							</div>
+							<!--textarea-->
+							<form method="post" th:object="${askCommentForm}" th:action="@{|/askComment/create/${askPosting.no}|}" >
+								<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+								<div>
+									<textarea class="commentAria" th:field="*{content}" rows="1" placeholder="댓글을 작성해주세요"
+									oninput='this.style.height = ""; this.style.height = this.scrollHeight + "px"'></textarea>
+								</div>
+								<!--댓글 작성 버튼 영역-->
+								<div class="right">
+									<button type="submit" class="btn btn-secondary btn-sm">댓글등록</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<!--댓글 작성 안내 영역-->
+					<div class="commentInfoBox2" sec:authorize="isAnonymous()">
+						로그인 후 댓글을 작성하실 수 있습니다.
+					</div>
+				</div><!--frame-f끝-->
+						
+				<!--버튼 영역-->
+				<div style="width:100%;">
+					<table style="width:100%;">
+						<tr>
+							<td class="half left">	
+								<a th:href="@{/askPosting/create}" sec:authorize="isAuthenticated()"><button type="button" class="btn btn-primary">글쓰기</button></a>			
+								</td>
+								<td class="right">		
+									<a th:href="@{/askPosting/list}"><button type="button" class="btn btn-secondary">목록</button></a>		
+								</td>
+							</tr>
+						</table>
+					</div>		
+					<!--		
+				<div class="frame-d">
+					<div class="frame-dl half left">
+						<form th:action="@{/askPosting/list}" method="get">
+							<button type="submit" class="btn btn-secondary">목록</button>
+						</form>
+					</div>
+					<div class="frame-dl half right">
+						<p sec:authorize="isAuthenticated()">
+							<a th:href="@{/askPosting/create}"><button type="button" class="btn btn-primary">글쓰기</button></a>
+							
+						</p>
+					</div>
+				</div>	-->
+							
+							
+			</div><!--frame-b끝-->
+		</div><!--frame-c끝-->
+	</div><!--layout 끝-->
+					
+	
+		
+		
+		<!--스크립트 구문-->
+		<script layout:fragment="script" type="text/javascript">
+			//친구 추가구문
+			const friend_elements = document.getElementsByClassName("makeFriend");
+			Array.from(friend_elements).forEach(function(element) {
+					element.addEventListener('click', function() {
+							if(confirm("친구로 추가하시겠습니까?")) {
+									location.href = this.dataset.uri;
+							};
+					});
+			});
+			//친구 취소구문
+			const deleteFriend_elements = document.getElementsByClassName("deleteFriend");
+			Array.from(deleteFriend_elements).forEach(function(element) {
+					element.addEventListener('click', function() {
+							if(confirm("친구 취소하시겠습니까?")) {
+									location.href = this.dataset.uri;
+							};
+					});
+			});
+			//자바스크립트 추천구문
+			const recommend_elements = document.getElementsByClassName("ddabong");
+			Array.from(recommend_elements).forEach(function(element){
+				element.addEventListener('click' , function(){
+					if(confirm("정말로 추천하시겠습니까?")){
+						location.href = this.dataset.uri;
+					}
+				})
+			})
+			//자바스크립트 비추천구문
+			const nocommend_elements = document.getElementsByClassName("nope");
+			Array.from(nocommend_elements).forEach(function(element){
+				element.addEventListener('click' , function(){
+					if(confirm("정말로 비추천하시겠습니까?")){
+						location.href = this.dataset.uri;
+					}
+				})
+			})
+			//자바스크립트 삭제구문
+			const delete_elements = document.getElementsByClassName("delete");
+			Array.from(delete_elements).forEach(function(element){
+				element.addEventListener('click' , function(){
+					if(confirm("정말로 삭제하시겠습니까?")){
+						location.href = this.dataset.uri;
+					}
+				})
+			})
+		</script>
+	
+	</body>
+</html>

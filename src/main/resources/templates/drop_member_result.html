@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoSignup.css}">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script type="text/javascript" defer th:src="@{/js/momoFindpw.js}"></script>
+		<title>모모 아이디/비밀번호 찾기</title>
+	</head>
+	<body>
+		<!--전체 영역-->
+		<div layout:fragment="content">
+			<!--아이디/비밀번호 찾기 전체 프레임-->
+			<div class="frame-t2">
+				<!--(좌측)로고/안내 영역-->
+				<div class="frame-l">
+					<div>
+						<div>
+							<p class="infoTitle">
+								모두 모이자, 모모
+							</p>
+							<p class="infoContent">
+								모모 <strong>회원탈퇴</strong> 메뉴입니다.<br><br>
+								탈퇴완료~!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+							</p>
+						</div>
+						<!--주의사항 출력-->
+						<div class="dropMember-f">
+							<div class="alert alert-dismissible alert-primary">
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+								<strong>선택정보 삭제 주의사항</strong><br>
+								회원님의 개인정보는 모두 삭제됩니다. 내 친구, 내 찜 목록 등의 정보는 탈퇴 시 즉시 삭제됩니다.
+							</div>
+						</div>
+						<div class="dropMember-f">
+							<div class="alert alert-dismissible alert-primary">
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+								<strong>게시물 삭제 주의사항</strong><br>
+								회원님이 작성하신 게시물, 댓글은 삭제되지 않습니다. 삭제를 원하시면 직접 삭제 후 탈퇴하여주시기 바랍니다.
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--(우측)사용자 입력 영역-->
+				<div class="frame-r">
+					<form method="post" th:action="@{/member/drop}">
+						<div>
+							<div>
+								<span class="searchTitle"><i class="fi fi-sr-remove-user"></i> 회원 탈퇴</span>
+							</div>
+							<div>
+								회원 탈퇴 확인을 위해 회원님의 아이디, 이메일, 비밀번호를 입력하여주시기 바랍니다.
+							</div>
+							<div class="form-floating my-3">
+								<input type="text" class="form-control" name="memberid" id="memberid" placeholder="아이디" autocomplete="off">
+								<label for="floatingInput">아이디</label>
+							</div>
+							<div class="form-floating my-3">
+								<input type="email" class="form-control" name="mail" id="mail" placeholder="이메일 주소(name@example.com)">
+								<label for="floatingInput">이메일 주소(name@example.com)</label>
+							</div>
+							<div class="form-floating my-3">
+								<input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" autocomplete="off">
+								<label for="floatingPassword">비밀번호</label>
+							</div>
+							<div class="d-grid gap-2">
+								<button type="submit" name="sendBtn" id="sendBtn" class="btn btn-lg btn-primary">회원 탈퇴</button>
+							</div>
+						</div>
+					</form>
+			</div>
+		</div>
+	</body>
+
+
+</html>

@@ -1,0 +1,265 @@
+body {
+	font-family: "Noto Sans KR", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 350;
+	font-style: normal;
+}
+
+.title {
+	font-size:1.25rem;
+}
+
+.infoTitleB {
+  text-align: center;
+  padding: 20px 20px 40px 20px;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+
+.frame-c {
+  width:1280px;
+  margin:auto;
+	/* border: 1px solid blue; */
+}
+
+.coutext, .button {
+	width:810px;
+	margin: auto;
+}
+
+.coutext {
+	border: solid 1px #e1e1e1;
+	padding: 20px;
+	height:200px;
+	overflow-y: auto;
+}
+
+.selectAll {
+	border-radius: 15px;
+	border: 1px solid #e1e1e1;
+	background-color: #f4f4f4;
+}
+
+.checkBox {
+	margin-left: 15px;
+}
+
+.ncsr {
+	color:red;
+}
+
+.frame-t1 {
+  width:600px;
+  margin:auto;
+}
+
+.frame-t2 {
+	width:850px;
+	padding:20px;
+  margin: auto;
+  overflow: auto;
+}
+
+.frame-t3 {
+	width:700px;
+	margin:auto;
+	/* border: 1px solid red; */
+}
+
+.frame-l, .frame-r {
+	float:left;
+}
+
+.frame-l {
+	width:350px;
+}
+
+.frame-r {
+	width:400px;
+	height:500px;
+	padding:20px;
+	border-left:solid 1px #e1e1e1;
+}
+
+.tableInfo {
+  width: 100%;
+	padding:0px;
+	border:none;
+}
+
+table {
+	width: 100%;
+	padding:0px;
+}
+
+tr {
+  border-bottom: 1px #e1e1e1 dashed;
+}
+
+td {
+  padding:15px 0px 15px 25px;
+}
+
+td input {
+	border: none;
+	width:100%;
+	height:100%;
+	outline: none;
+}
+
+/*
+td span {
+	color:salmon;
+	font-weight: bold;
+}
+	*/
+
+input:focus {
+	border: none;
+}
+
+.last {
+  border: none;
+}
+
+.signinInfo {
+	width: 100%;
+	text-align: left;
+	margin: 10px 10px 10px 0;
+}
+
+.signinInfoSm {
+	width: 100%;
+	text-align: right;
+	padding: 5px 0px 5px 10px;
+}
+
+.searchTitle {
+	font-size: 1.2rem;
+	font-weight:bold;
+	color:salmon;
+	padding-left: 0;
+}
+
+.alignLeft {
+	text-align: left;
+}
+
+.sendBtn {
+	width:100%;
+}
+
+.infoTitle {
+  width:100%;
+	padding:10px;
+	margin: auto;
+  border-bottom: 2px solid salmon;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.infoTitle-b {
+  width:100%;
+	padding:10px;
+	margin: auto;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.infoContent {
+	padding-top: 15px;
+}
+
+.infoContent2 {
+	padding-top: 15px;
+	color: salmon;
+	font-weight: bold;
+}
+
+.infoFound {
+	padding: 20px;
+	border-top: dashed 1px #e1e1e1;
+	text-align: center;
+	line-height: 2rem;
+}
+
+.infoFound2 {
+	border-top: dashed 1px #e1e1e1;
+	padding-right: 20px;
+	text-align: center;
+	line-height: 2rem;
+}
+
+.infoFoundid {
+	width: 300px;
+	text-align: center;
+	line-height: 3rem;
+	color: salmon;
+	font-weight: bold;
+	font-size: 1.2rem;
+	border: none;
+}
+
+.detailCheck {
+	font-size: small;
+	color: gray;
+}
+
+#modal-box {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.6);
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-size {
+	width:500px;
+}
+
+#modal-box.active {
+	display: flex;
+}
+
+.dvd {
+	width:100%;
+	overflow: auto;
+}
+
+.dvd-l {
+	float: left;
+	width: 40%;
+	margin-top: auto;
+}
+
+#like, #like2 {
+	font-size: xx-large;
+}
+
+#like.active, #like2.active {
+	font-size: xx-large;
+	color:red;
+} 
+
+.dropMember-f {
+	padding-right: 20px;
+}
+
+.contentBox {
+  white-space:pre;
+}
+
+.profileTable {
+	width:500px;
+}
+
+.profileTable th {
+	padding-left: 20px;
+}

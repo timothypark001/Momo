@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoSignup.css}">
+		<title>회원가입</title>
+	</head>
+	<body>
+		<!--전체 영역-->
+		<div layout:fragment="content" id='wrapper'>
+			<!--회원가입 영역-->
+			<div align="center">
+				<!--로고 영역-->
+				<div class="infoTitleB">
+					[모두 모이자, 모모] 회원 가입<br>
+				</div>
+				<div class="frame-t1">
+					<!--입력 필드 영역-->
+					<table class="tableInfo">
+						<tr class="tableInfo">
+							<td width="50%" class="searchTitle">
+								필수 입력 정보
+							</td>
+							<td class="signinInfoSm detailCheck pt-4">
+								<span style="color: salmon; font-weight: bold;">*</span>표시는 필수 입력 항목입니다.
+							</td>
+						</tr>
+					</table>
+					<!--상세 필드 영역-->
+					<form method="post" th:action="@{/member/signup}" th:object="${memberCreateForm}">
+						<div class="border border-secondary-subtle rounded">
+							<div th:replace="~{member/member_form_errors :: formErrorsFragment}">
+							</div>
+							<div>
+								<table>
+									<tr>
+										<td width="150px"><i class="fi fi-sr-user"></i> 아이디<span>*</span></td>
+										<td><input type="text" th:field="*{memberid}" placeholder="아이디를 입력하세요"></td>
+									</tr>
+									<tr>
+										<td><i class="fi fi-sr-lock"></i> 비밀번호<span>*</span></td>
+										<td><input type="password" th:field="*{password1}" placeholder="비밀번호를 입력하세요"></td>
+									</tr>
+									<tr>
+										<td><i class="fi fi-sr-lock"></i> 비밀번호 확인<span>*</span></td>
+										<td><input type="password" th:field="*{password2}" placeholder="비밀번호를 한 번 더 입력하세요"></td>
+									</tr>
+									<tr>
+										<td><i class="fi fi-sr-grin-squint"></i> 이름(실명)<span>*</span></td>
+										<td><input type="text" th:field="*{membername}" placeholder="이름을 입력하세요"></td>
+									</tr>
+									<tr>
+										<td><i class="fi fi-sr-grin-beam"></i> 닉네임<span>*</span></td>
+										<td><input type="text" th:field="*{membernick}" placeholder="닉네임을 입력하세요"></td>
+									</tr>
+									<tr class="last">
+										<td><i class="fi fi-sr-envelope"></i> 이메일<span>*</span></td>
+										<td><input type="email" th:field="*{email}" placeholder="name@example.com"></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+
+
+
+						<!--선택 입력 영역-->
+						<table class="tableInfo mt-4">
+							<tr class="tableInfo">
+								<td width="50%" class="searchTitle">
+									선택 입력 정보
+								</td>
+								<td class="signinInfoSm detailCheck pt-4">
+									선택 입력 정보는 다른 회원이 볼 수 있습니다.
+								</td>
+							</tr>
+						</table>
+						<div class="border border-secondary-subtle rounded">
+							<!--
+							<div th:replace="~{/member/member_form_errors :: formErrorsFragment}">
+							</div>
+							-->
+							<div>
+								<table>
+									<tr>
+										<td><i class="fi fi-sr-venus-mars"></i> 성별</td>
+										<td>
+											<input class="form-check-input" type="radio" id="gender" th:field="*{gender}" th:value="남자" checked="">
+											<label class="form-check-label" for="genderm">
+												남자
+											</label>
+											<input class="form-check-input" type="radio" id="gender" th:field="*{gender}" th:value="여자">
+											<label class="form-check-label" for="genderf">
+												여자
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td><i class="fi fi-sr-circle-m"></i> MBTI</td>
+										<td>
+											<div class="pe-3">
+												<select class="form-select" th:field="*{mbti}">
+													<option selected th:value=null>선택하세요</option>
+													<option th:value="ISTJ">ISTJ</option>
+													<option th:value="ISFJ">ISFJ</option>
+													<option th:value="INFJ">INFJ</option>
+													<option th:value="INTJ">INTJ</option>
+													<option th:value="ISTP">ISTP</option>
+													<option th:value="ISFP">ISFP</option>
+													<option th:value="INFP">INFP</option>
+													<option th:value="INTP">INTP</option>
+													<option th:value="ESTP">ESTP</option>
+													<option th:value="ESFP">ESFP</option>
+													<option th:value="ENFP">ENFP</option>
+													<option th:value="ENTP">ENTP</option>
+													<option th:value="ESTJ">ESTJ</option>
+													<option th:value="ESFJ">ESFJ</option>
+													<option th:value="ENFJ">ENFJ</option>
+													<option th:value="ENTJ">ENTJ</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr class="last">
+										<td><i class="fi fi-sr-megaphone-announcement-leader"></i> 자기소개</td>
+										<td>
+											<div class="pe-3">
+												<textarea class="form-control contentBox" th:field="*{content}" rows="3"></textarea>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+							
+						</div>
+						<div>
+							<div class="d-grid gap-2">
+								<br>
+								<button type="submit" class="btn btn-lg btn-primary mb-4">회원가입</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark" th:fragment="navbarFragment">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/}">MOMO</a> <!--Heather가 경로주는거 수정함-->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+			<span><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/member/login}">login</a></span>
+			<span sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/member/logout}">logout</a></span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/member/signup}">signup</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Community</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" th:href="@{/free/list}">Free</a>
+            <a class="dropdown-item" th:href="@{/askPosting/list}">Q&A</a>
+            <a class="dropdown-item" th:href="@{/attendComment/list}">Attend</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">C/S</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" th:href="@{/notice/list}">Notice</a>
+            <a class="dropdown-item" th:href="@{/faq/list}">FAQ</a>
+            <a sec:authorize="hasRole('ROLE_MEMBER')" class="dropdown-item" th:href="@{/mypage/profile}">Mypage</a>
+			<a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/mypage/inquiryPosting/list}">Inquiry(관리자)</a>
+          </div>
+        </li>
+		
+		<li class="nav-item">
+			<a sec:authorize="isAuthenticated()" th:text="|Welcome, ${#authentication.getPrincipal().getMembernick()}!|" th:href="@{/mypage/profile}"></a>
+		</li>
+		
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-sm-2" type="search" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>

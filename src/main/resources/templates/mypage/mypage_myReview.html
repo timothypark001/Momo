@@ -1,0 +1,110 @@
+<html layout:decorate="~{layout_mypage}">
+	<head>
+			<link rel="stylesheet" type="text/css" th:href="@{/css/myReview.css}">
+		<title>맛집검색하자</title>
+		<meta charset="UTF-8">
+	</head>
+   <body>
+   <div layout:fragment="mypageContent" id="wrapper">
+	<!--전체 영역-->
+	<div>
+		<!--콘텐츠 영역-->
+		<div>	
+			<!--콘텐츠 세부 영역-->
+				<div class="frame-dvd my-5">
+					<!--본문 전체-->
+					<span style="font-size: 20px; font-weight: bold;">내 리뷰</span>
+					<div th:if="${myReview.isEmpty()}" class="card my-2" style="height:200px; background-color: gainsboro;" >
+						<strong style="margin:auto">현재 작성된 리뷰가 없습니다. 리뷰를 작성해주세요.</strong>
+					</div>
+					<div th:unless="${myReview.isEmpty()}">
+						<form th:action="@{/mypage/myReview}" method="get" id="searchForm">
+							<input type="hidden" id="content" name="content" th:value="${content}">
+							<input type="hidden" id="page" name="page" th:value="${myReview.number}">
+					 	</form>
+						<div class="review card my-3" th:each="review : ${myReview}">
+							<th:block th:field="${review}">
+							<div class="re_list ">
+								<table class="table re_table" >
+								  <thead>
+									<tr>
+										<th>
+											<a th:href=@{|/rest/detail/${review.rest.no}|} th:text="${review.rest.name}"></a>
+										</th>
+									</tr>
+								    <tr>
+										<th><span th:text="${review.membernick}" ></span> &nbsp;&nbsp; 
+											<i class="fi fi-sr-peach"></i>
+											<span th:text="| ${review.star} 점|" style="color:primary; font-size: small;"> </span></th>
+								     	<th></th>
+								    </tr>
+								  </thead>
+								  <tbody >
+									<tr>
+										<td><span style="overflow-wrap:anywhere;" th:text=" ${review.content}" ></span></td>
+								      	<td style="width: 150px;"> <span th:text="|${#temporals.format(review.createDate, 'yyyy-MM-dd')}|" ></span></td>
+									</tr>
+									<tr >   
+										<!--따봉-->
+									   	<td class="re_ddabong" style="font-size: 10px; text-decoration-color: none; ">	
+                                             <i class="fi fi-sr-thumbs-up"></i>
+											   좋아요
+											<span  th:text="${#lists.size(review.ddabong)}">
+											</span>
+										</td>
+									</tr>
+									</tbody>
+									</table>
+							</div><!--re_dvd-->
+							</th:block><!--리뷰리스트-->	
+						</div>						    		
+					<!--리뷰 검색-->
+					<div style="width:50%;margin:auto;">
+						<div class="input-group mb-3">
+							<input type="text" id="search_content" class="form-control" th:value="${content}">
+							<button type="button" id="btn_search_content" class="btn btn-outline-secondary">검색</button>	
+						</div>
+					</div>
+					<!--리뷰  페이징-->
+					 <div th:if="${!myReview.isEmpty()}">
+						<ul class="pagination pagination-sm justify-content-center">
+							<li class="page-item" style="padding:0" th:classappend="${!myReview.hasPrevious} ? 'disabled'">
+						      <a class="page-link" href="javascript:void(0)" th:data-page="${myReview.number-1}">
+								 <span>&laquo;</span>
+							  </a>
+							</li>
+							<li style="padding:0"  th:each="page : ${#numbers.sequence(0, myReview.totalPages-1) }"
+							   th:if="${page >= myReview.number -3 and page <= myReview.number + 3}"
+							   th:classappend="${page==myReview.number} ? 'active'" class="page-item">
+							   <a th:text="${page+1}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
+							</li>
+							<li style="padding:0" class="page-item" th:classappend="${!myReview.hasNext} ? 'disabled'">
+							   <a class="page-link" href="javascript:void(0)" th:data-page="${myReview.number+1}">
+								 <span>&raquo;</span>
+							   </a>
+							</li>
+						</ul>
+					  </div>	     					
+					  </div>
+					 </div>
+				  </div>
+			    </div> 
+		    
+	  <script layout:fragment="script" type="text/javascript">
+	  	const page_elements = document.getElementsByClassName("page-link")
+	  	Array.from(page_elements).forEach(function(element){
+	  	  element.addEventListener('click' , function(){
+	  	    document.getElementById('page').value = this.dataset.page;
+	  		document.getElementById('searchForm').submit();
+	  	  });
+	  	});
+	  	const btn_search = document.getElementById("btn_search_content");
+	  	btn_search.addEventListener('click' , function(){
+	  	  document.getElementById('content').value = document.getElementById('search_content').value;
+	  	  document.getElementById('page').value = 0;
+	  	  document.getElementById('searchForm').submit();
+	  	});
+	  </script>
+</div>	
+</body>
+</html>

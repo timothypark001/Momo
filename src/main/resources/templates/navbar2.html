@@ -1,0 +1,59 @@
+<nav th:fragment="navbarFragment">
+
+  <!--전체 프레임-->
+  <div>
+
+    <!--전체 내부 프레임(100%)-->
+    <div class="frameNav">
+
+      <!--메뉴 프레임(1280px)-->
+      <div class="frameNavMenu">
+
+        <!--로고(180px)-->
+        <div class="frameNavLogo">
+          <a th:href="@{/}" ><img th:src="@{/css/images/momoLogo3.png}"></a>
+        </div>
+
+        <!--메인 메뉴(800px)-->
+        <div class="frameNavMain">
+          &nbsp;&nbsp;&nbsp;
+          <a th:href="@{/about}">모모는?</a>&nbsp;&nbsp;&nbsp;
+          <a th:href="@{/rest/}">식당 검색</a>&nbsp;&nbsp;&nbsp;
+          <a th:href="@{/et/list}">같이 먹기</a>&nbsp;&nbsp;&nbsp;
+          <a th:href="@{/free/list}">자유게시판</a>&nbsp;&nbsp;&nbsp;
+          <a th:href="@{/askPosting/list}">질문과 답변</a>&nbsp;&nbsp;&nbsp;
+          <a th:href="@{/attendComment/list}">출석체크</a>&nbsp;&nbsp;&nbsp;
+          <a th:href="@{/ranking/rank}">랭킹</a>
+        </div>
+        
+        <!--로그인 관련 메뉴(300px)-->
+        <div class="frameNavLogin">
+          <span sec:authorize="isAnonymous()">
+            <a th:href="@{/member/login}">
+              로그인
+            </a>
+          </span>
+          <span sec:authorize="isAuthenticated()">
+              <a th:href="@{/mypage/profile}">
+                Welcome, <span th:text="${#authentication.getPrincipal().getMembernick()}"></span>
+              </a>  
+          </span>
+          <span sec:authorize="isAuthenticated()">
+            <a th:href="@{/member/logout}">
+             | 로그아웃
+            </a>
+          </span>
+          <span sec:authorize="isAnonymous()">
+            <a th:href="@{/member/signup}">
+             | 회원가입  
+            </a>
+          </span>
+        </div>
+		  </div>
+    </div>
+  </div>
+</nav>
+
+
+
+

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>친구 테스트</title>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoTest.css}">
+	</head>
+	<body>
+		<div>
+			<form method="post" th:action="@{/member/findFriend}">
+				<input type="text" name="memberid">
+				<button type="submit">찾기</button>
+			</form>
+		</div>
+
+
+	</body>
+</html>

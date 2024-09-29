@@ -1,0 +1,135 @@
+<html layout:decorate="~{layout}">
+	<head>
+	<title>공지사항</title>
+	</head>
+	<body>
+	<div layout:fragment="content" class="container my-3" id='wrapper'>
+	
+	
+		
+
+		<div style="width:1100px; margin: auto;">	
+			<p style="font-size: 30px; font-weight: bold;">[공지사항] MOMO 서비스의 신규 및 업데이트 소식</p>					
+		<table class="table table-hover">
+			<thead class="table-primary">
+				<tr>
+					<th width="100px">번호</th>
+					<th>제목</th>
+					<th width="80px">작성자</th>
+					<th width="100px">작성일</th>
+		<!--		<th width="80px">조회수</th>-->
+				</tr>
+			</thead>
+			
+			
+			<tbody>
+				
+				<tr th:each="noticePosting,loop : ${paging}">
+					<!-- 게시물 번호 = 전체 게시물 개수 - (현재 페이지 *페이지당 게시물 개수) - 나열 인덱스 -->
+					<th th:text="${paging.getTotalElements - (paging.number * paging.size)-loop.index}"></th>
+					<td> 
+					<a th:href="@{|/notice/detail/${noticePosting.no}|}"  th:text="${noticePosting.subject}"></a>
+					
+				<!-- 목록에 댓글 수 보여주기
+					<span class="text-danger small ms-2" th:if="${#lists.size(noticePosting.commentList) > 0}"
+						th:text="${#lists.size(noticePosting.commentList)}"></span>-->
+					
+				</td>
+				
+				<!--작성자  --> 
+				<td> 
+					<span th:if="${noticePosting.author != null}" th:text="${noticePosting.author.membernick}">
+					</span>  			
+				</td>
+		
+					<td th:text="${#temporals.format(noticePosting.createDate,'yyyy-MM-dd')}"></td>
+		<!--조회수	<td th:text="${noticePosting.cnt}"></td>-->
+				</tr>
+			</tbody>
+			
+		</table>
+		
+
+		<!-- 관리자만 수정-->
+		
+		<div class="row my-3">
+			<div class="col-6">
+				<a th:href="@{/notice/create}" class="btn btn-primary"
+				sec:authorize="hasRole('ROLE_ADMIN')">공지 등록</a> 
+			</div>
+		</div>
+		
+		
+		<div class="d-flex justify-content-center my-3">
+				<div class="col-6">
+				       <div class="input-group">
+				           <input type="text" id="search_kw" class="form-control" th:value="${kw}">
+				           <button class="btn btn-secondary" type="button" id="btn_search">찾기</button>
+				      </div>
+				</div>	
+		</div>
+
+
+
+
+		<!-- 페이징 기능 -->
+		<div th:if="${!paging.isEmpty()}">
+			<ul class="pagination justify-content-center">
+				<!-- 이전 페이지 -->
+				<li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+				<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}"><span>&laquo;</span>  </a>
+				</li>
+				<!-- 현재 페이지 -->
+				<li th:each="page : ${#numbers.sequence(0, paging.totalPages-1)}" 
+				th:if="${page>=paging.number -2 and page <= paging.number +2}"
+				th:classappend="${page == paging.number} ? 'active'"class="page-item">
+				<a class="page-link" href="javascript:void(0)" th:data-page="${page}" th:text="${page+1}"></a>
+			</li>
+				
+				<!--다음 페이지 -->
+				<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+					<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}"><span>&raquo;</span></a>
+				</li>
+			</ul>
+			
+			
+			
+		</div>
+	</div>	
+
+	<form th:action="@{/notice/list}" method="get" id="searchForm">
+		<input type="hidden" id="kw" name="kw" th:value="${kw}">
+		<input type="hidden" id="page" name="page" th:value="${paging.number}">
+	</form>
+	
+
+
+
+
+</div>
+
+	<script layout:fragment="script" type='text/javascript'>
+		
+	const page_elements = document.getElementsByClassName("page-link");
+	Array.from(page_elements).forEach(function(element) {
+	   		element.addEventListener('click', function() {
+	        document.getElementById('page').value = this.dataset.page;
+	        document.getElementById('searchForm').submit();
+				
+	    });
+		});
+
+	
+	const btn_search = document.getElementById("btn_search");
+	btn_search.addEventListener('click', function() {
+		    document.getElementById('kw').value = document.getElementById('search_kw').value;
+		    document.getElementById('page').value = 0;  //검색버튼을 클릭할 경우 0페이지부터 조회
+		    document.getElementById('searchForm').submit();
+			
+		
+		
+	});
+	</script>
+	
+	</body>
+</html>

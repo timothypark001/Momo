@@ -1,0 +1,91 @@
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 350;
+  font-style: normal;
+}
+
+.gowun-dodum-regular {
+  font-family: "Gowun Dodum", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.frame-t1 {
+  width:500px;
+  margin:auto;
+}
+
+.frame-t2 {
+  width:900px;
+  height:500px;
+  margin: auto;
+  overflow: auto;
+}
+
+.frame-l {
+  width:450px;
+  height:500px;
+  border-right:solid 1px #999999;
+  float: left;
+}
+
+
+.frame-main {
+  border: 1px solid #999999;
+  margin-left: 20px;
+  padding:20px;
+}
+
+.frame-menu {
+  width:170px;
+  border:1px solid #e1e1e1;
+  border-radius: 10px;
+  margin-left: 20px;
+  float:left;
+}
+
+.smlist {
+  margin:15px;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.smlistl {
+  margin:15px;
+}
+
+ul {
+  list-style-type:none;
+  padding-left: 10px;
+}
+
+li {
+  line-height: 2rem;
+  color:#999999;
+}
+
+.titleMenu {
+  color:salmon;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.frame-t1 table {
+  width: 100%;
+
+}
+
+tr {
+  border-bottom: 1px #e1e1e1 dashed;
+}
+
+td {
+  padding:10px;
+}
+
+.last {
+  border: none;
+}
+
+
+

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+  <div id='wrapper'>
+  
+		<footer th:fragment="footerFragment">	
+			<div class="fa">	
+				<!--로고자리-->
+				<div class="f1">
+					<a th:href="@{/}" ><img th:src="@{/css/images/momoLogo5.png}"></a>
+				</div>
+		
+				<div class="f2">
+					<strong>
+						<span><a th:href="@{/notice/list}">공지사항</a>&nbsp;&nbsp;&nbsp;</span>
+						<span><a th:href="@{/faq/list}">자주 묻는 질문</a>&nbsp;&nbsp;&nbsp;</span>
+						<span><a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{/inquiryPosting/myList}">문의하기</a> </span>
+						<span><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/inquiryPosting/list}">문의답변(관리자)</a> </span>
+					</strong>
+					<hr>
+					(주)모모<br>
+						대표자 : 박성찬<br>
+						소재지 : 경기 김포시 김포한강4로 125, 모모타운 10층 <br>
+						사업자등록번호 : 321-97-00521<br>
+						이메일 문의 : <a href="eeee">momo2gather@gmail.com</a></span>
+						<!--	<p >회사소개 &nbsp;|&nbsp; 인재채용&nbsp;|&nbsp;제휴제안&nbsp;|&nbsp;이용약관&nbsp;|&nbsp;개인정보&nbsp;|&nbsp;처리방침&nbsp;|&nbsp;청소년보호정책&nbsp;|&nbsp; 모모 정책 &nbsp;|&nbsp;고객센터&nbsp;&nbsp;ⓒ MOMO Corp.</p>
+							-->			
+				</div>
+			</div>
+		</footer>
+	</div>
+</html>

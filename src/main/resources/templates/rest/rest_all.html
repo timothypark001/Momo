@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/rest.css}">
+		
+	<title>맛집검색하자</title>
+
+	</head>
+	<body>
+	<div layout:fragment="content" id='wrapper'>
+			
+				<div class="rest_header" >
+
+				</div>
+							<!--검색-->
+				<div class="search ">
+						<div class="input-group">
+						<input type="text" id="search_kw" class="form-control" th:value="${kw}" placeholder="음식이나 식당을 검색해보세요">
+						<button class="btn btn-secondary" type="button" id="btn_search">찾기</button>
+						</div>
+				</div>
+					
+						<form th:action="@{/rest/list/search}" method="get" id="searchForm">
+						<input type="hidden" id="kw" name="kw" th:value="${kw}">	   
+						</form>	
+			
+
+		<div class="mid">		
+			<div class="ra">
+				<div class="r2">
+<!--비빔밥-->			<div class="r3" ><a  th:href="@{/rest/list/한식}" ><img  src="https://cdn-icons-png.flaticon.com/128/8740/8740490.png">
+					<br><span>한식</span></a></div>
+<!--딤섬-->			<div class="r3"><a  th:href="@{/rest/list/중식}"><img src="https://cdn-icons-png.flaticon.com/128/12170/12170831.png">
+					<br><span>중식</span>	</a></div>
+<!--초밥-->			<div class="r3"><a th:href="@{/rest/list/일식}">	<img src="https://cdn-icons-png.flaticon.com/128/2714/2714023.png">
+					<br><span>일식</span></a></div>
+				</div>
+				<div class="r2">
+<!--고기-->			<div class="r3" ><a th:href="@{/rest/list/양식}">   <img src="https://cdn-icons-png.flaticon.com/128/676/676746.png">
+					<br><span>양식</span></a></div>
+<!--딸기케이크-->		<div class="r3" ><a th:href="@{/rest/list/카페}"><img src="https://cdn-icons-png.flaticon.com/128/9997/9997743.png">
+					<br><span>카페</span></a></div>
+<!--떡볶이-->			<div class="r3" ><a th:href="@{/rest/list/분식}"><img src="https://cdn-icons-png.flaticon.com/128/2276/2276869.png">
+					<br><span>분식</span></a></div>
+				</div>
+				<div class="r2">
+<!--맥주-->			<div class="r3" ><a th:href="@{/rest/list/주점}"><img src="https://cdn-icons-png.flaticon.com/128/1895/1895818.png">
+					<br><span>주점</span></a></div>
+<!--햄버거-->			<div class="r3" ><a th:href="@{/rest/list/패스트푸드}"><img src="https://cdn-icons-png.flaticon.com/128/5508/5508475.png">
+					<br><span>패스트푸드</span></a></div>
+<!--우동-->			<div class="r3" ><a th:href="@{/rest/list/아시안}"><img src="https://cdn-icons-png.flaticon.com/128/2515/2515126.png">
+					<br><span>아시안</span></a></div>
+				</div>
+			</div>
+<!--
+			<div class="game">	
+			  <canvas width="380" height='380'></canvas>  
+			  <button class="game_b" onclick="rotate()">룰렛 돌리기</button>
+			</div>	
+			-->			
+		</div>	
+	</div>
+		<!--검색 js-->
+				<script layout:fragment="script" type='text/javascript'>
+
+				const btn_search = document.getElementById("btn_search");
+				btn_search.addEventListener('click', function() {
+				    document.getElementById('kw').value = document.getElementById('search_kw').value;
+				  
+				    document.getElementById('searchForm').submit();
+				});
+				
+				
+
+
+				//룰렛
+				const $c = document.querySelector("canvas");
+				const ctx = $c.getContext(`2d`);
+
+
+				const product = [
+				  "떡볶이", '돈가스', "초밥", "피자", "냉면", "치킨", '족발', "피자", "삼겹살",
+				];
+
+				const colors = ["#dc0936", "#e6471d", "#f7a416", "#efe61f ", "#60b236", "#209b6c", "#169ed8", "#3f297e", "#87207b", "#be107f", "#e7167b"];
+
+				const newMake = () => {
+				    const [cw, ch] = [$c.width / 2, $c.height / 2];
+				    const arc = Math.PI / (product.length / 2);
+				  
+				    for (let i = 0; i < product.length; i++) {
+				      ctx.beginPath();
+				      ctx.fillStyle = colors[i % (colors.length -1)];
+				      ctx.moveTo(cw, ch);
+				      ctx.arc(cw, ch, cw, arc * (i - 1), arc * i);
+				      ctx.fill();
+				      ctx.closePath();
+				    }
+
+				    ctx.fillStyle = "#fff";
+				    ctx.font = "18px Pretendard";
+				    ctx.textAlign = "center";
+
+				    for (let i = 0; i < product.length; i++) {
+				      const angle = (arc * i) + (arc / 2);
+
+				      ctx.save()  ;
+
+				      ctx.translate(
+				        cw + Math.cos(angle) * (cw - 50),
+				        ch + Math.sin(angle) * (ch - 50),
+				      );
+
+				      ctx.rotate(angle + Math.PI / 2);
+
+				      product[i].split(" ").forEach((text, j) => {
+				        ctx.fillText(text, 0, 30 * j);
+				      });
+
+				      ctx.restore();
+				    }
+				}
+				const rotate = () => {
+				  $c.style.transform = `initial`;
+				  $c.style.transition = `initial`;
+				  
+				  setTimeout(() => {
+				    
+				    const ran = Math.floor(Math.random() * product.length);
+
+				    const arc = 360 / product.length;
+				    const rotate = (ran * arc) + 3600 + (arc * 3) - (arc/4);
+				    
+				    $c.style.transform = `rotate(-${rotate}deg)`;
+				    $c.style.transition = `2s`;
+				    
+				    setTimeout(() => alert(`오늘의 야식은?! ${product[ran]} 어떠신가요?`), 2000);
+				  }, 1);
+				};
+				newMake();
+				</script>
+	</body>
+</html>
+

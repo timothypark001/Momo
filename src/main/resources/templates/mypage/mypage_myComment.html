@@ -1,0 +1,199 @@
+<html layout:decorate="~{layout_mypage}">
+<div layout:fragment="mypageContent" id="wrapper">
+		
+	<style>
+		th.bg{ 
+			background-color: #fbe1e0;
+			width:20%;
+		}
+		    
+		.noline {
+			text-decoration-line: none;
+			color: black;
+		}
+		
+		td {
+				max-width: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			   }
+			   td.column_a {width: 60%;}
+			   td.column_b {width: 20%;}
+			   td.column_c {width: 10%;}
+			   td.column_d {width: 10%;}
+
+	</style>
+	<!--전체 영역-->
+	<div>
+		<!--콘텐츠 영역-->
+		<div>	
+			<!--콘텐츠 세부 영역-->
+				<div class="frame-dvd my-5">
+					<!--본문 전체-->
+					<div>
+						<form th:action="@{/mypage/myComment}" method="get" id="searchForm">
+							<input type="hidden" id="freeContent" name="freeContent" th:value="${freeContent}">
+							<input type="hidden" id="page" name="page" th:value="${myFreeComment.number}">
+							<input type="hidden" id="askContent" name="askContent" th:value="${askContent}">
+						    <input type="hidden" id="pg" name="pg" th:value="${myAskComment.number}">
+					 	</form>
+						<!--댓글 미작성시-->
+						<span style="font-size: 20px; font-weight: bold;">내 자유게시판 댓글</span>
+						<div th:if="${myFreeComment.isEmpty()}" class="card my-2" style="height:200px; background-color: gainsboro;" >
+							<strong style="margin:auto">현재 자유게시판에 작성된 댓글이 없습니다. 댓글을 작성해 보세요.</strong>
+						</div>
+						<!--댓글 목록(자유게시판)-->
+						<div th:unless="${myFreeComment.isEmpty()}">
+						 <table  class="table table-hover">
+								<thead>
+									<tr class="table-primary">
+									  <th>내용</th>
+									  <th>작성일</th>
+									  <th>추천</th>
+									  <th>비추천</th>
+									</tr>
+								</thead>
+								<tbody>
+								  <div >
+									<tr class="table" th:each="comment :${myFreeComment}">
+										<td class="column_a">
+										<a class="noline" th:href="@{|/free/detail/${comment.freePosting.no}|}" th:text="${comment.content}"></a>
+										</td>
+										<td class="column_b" th:if="${#calendars.format(#calendars.createNow(), 'yyyy.MM.dd') == #temporals.format(comment.createDate, 'yyyy.MM.dd')}" 
+										th:text="${#temporals.format(comment.createDate, 'HH:mm')}"></td>
+										<td class="column_b" th:unless="${#calendars.format(#calendars.createNow(), 'yyyy.MM.dd') == #temporals.format(comment.createDate, 'yyyy.MM.dd')}" 
+										th:text="${#temporals.format(comment.createDate, 'yyyy.MM.dd')}"></td>	
+										<td class="column_c" th:text="${#lists.size(comment.ddabong)}"></td>
+										<td class="column_d" th:text="${#lists.size(comment.nope)}"></td>
+									</tr>
+								 </div>
+								</tbody>
+								</table>			
+							    <!--자유게시판 검색-->
+								  <div style="width:50%;margin:auto;">
+									<div class="input-group mb-3">
+										<input type="text" id="search_freeContent" class="form-control" th:value="${freeContent}">
+										<button type="button" id="btn_search_freeContent" class="btn btn-outline-secondary">검색</button>
+									</div>
+								  </div>
+								<!--자유게시판 페이징-->
+								  <div th:if="${!myFreeComment.isEmpty()}" >
+									<ul class="pagination pagination-sm justify-content-center">
+									  <li style="padding:0" class="page-item" th:classappend="${!myFreeComment.hasPrevious} ? 'disabled'">
+										 <a name="z" class="page-link" href="javascript:void(0)" th:data-page="${myFreeComment.number-1}">
+											<span>&laquo;</span>
+										 </a>
+									  </li>
+									  <li style="padding:0" th:each="page : ${#numbers.sequence(0, myFreeComment.totalPages-1) }"
+							           th:if="${page >= myFreeComment.number -3 and page <= myFreeComment.number + 3}"
+									   th:classappend="${page==myFreeComment.number} ? 'active'" class="page-item">
+									     <a name="z" th:text="${page+1}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
+									  </li>
+									  <li style="padding:0" class="page-item" th:classappend="${!myFreeComment.hasNext} ? 'disabled'">
+										  <a name="z" class="page-link" href="javascript:void(0)" th:data-page="${myFreeComment.number+1}">
+											  <span>&raquo;</span>
+										  </a>
+									  </li>
+								    </ul>
+								 </div>
+								 
+						</div>
+				   <hr>
+					
+					<span style="font-size: 20px; font-weight: bold;">내 질문&답변 댓글</span>
+					<!--댓글 미작성시-->
+					<div th:if="${myAskComment.isEmpty()}" class="card my-2" style="height:200px; background-color: gainsboro;" >
+						<strong style="margin:auto">현재 질문&답변에 작성된 댓글이 없습니다. 댓글을 작성해 보세요.</strong>
+					</div>
+					 <!--글 목록(질문%답변)-->
+					 <div th:unless="${myAskComment.isEmpty()}">
+					<table  class="table table-hover">					
+						<thead>
+							<tr class="table-primary">
+								<th>내용</th>
+								<th>작성일</th>
+								<th>추천</th>
+								<th>비추천</th>
+							</tr>
+						</thead>
+						<tbody>
+							<div>
+							   <tr class="table" th:each="comment :${myAskComment}">
+									<td class="column_a">
+								    <a class="noline" th:href="@{|/askPosting/detail/${comment.askPosting.no}|}" th:text="${comment.content}"></a>
+									</td>
+								    <td class="column_b" th:if="${#calendars.format(#calendars.createNow(), 'yyyy.MM.dd') == #temporals.format(comment.createDate, 'yyyy.MM.dd')}" 
+								     th:text="${#temporals.format(comment.createDate, 'HH:mm')}"></td>
+									<td class="column_b" th:unless="${#calendars.format(#calendars.createNow(), 'yyyy.MM.dd') == #temporals.format(comment.createDate, 'yyyy.MM.dd')}" 
+								     th:text="${#temporals.format(comment.createDate, 'yyyy.MM.dd')}"></td>	
+									 <td class="column_c" th:text="${#lists.size(comment.ddabong)}"></td>
+									 <td class="column_d" th:text="${#lists.size(comment.nope)}"></td>
+								</tr>
+							</div>
+						</tbody>
+					</table>			
+					<!--질문%답변 검색-->
+					<div style="width:50%;margin:auto;">
+						<div class="input-group mb-3">
+							<input type="text" id="search_askContent" class="form-control" th:value="${askContent}">
+							<button type="button" id="btn_search_askContent" class="btn btn-outline-secondary">검색</button>
+					    </div>
+					</div>
+					<!--질문%답변  페이징-->
+					 <div th:if="${!myAskComment.isEmpty()}">
+						<ul class="pagination pagination-sm justify-content-center">
+							<li style="padding:0" class="page-item" th:classappend="${!myAskComment.hasPrevious} ? 'disabled'">
+						      <a name="y"  class="page-link" href="javascript:void(0)" th:data-page="${myAskComment.number-1}">
+								 <span>&laquo;</span>
+							  </a>
+							</li>
+							<li style="padding:0" th:each="pg : ${#numbers.sequence(0, myAskComment.totalPages-1) }"
+							   th:if="${pg >= myAskComment.number -3 and pg <= myAskComment.number + 3}"
+							   th:classappend="${pg==myAskComment.number} ? 'active'" class="page-item">
+							   <a name="y" th:text="${pg+1}" class="page-link" href="javascript:void(0)" th:data-page="${pg}"></a>
+							</li>
+							<li style="padding:0" class="page-item" th:classappend="${!myAskComment.hasNext} ? 'disabled'">
+							   <a name="y"  class="page-link" href="javascript:void(0)" th:data-page="${myAskComment.number+1}">
+								 <span>&raquo;</span>
+							   </a>
+							</li>
+						</ul>
+					  </div>	     					
+					  </div>
+					 </div>
+				  </div>
+			    </div> 
+		    </div>
+	  <script layout:fragment="script" type="text/javascript">
+	  	const page_elements = document.getElementsByName("y");
+	  	Array.from(page_elements).forEach(function(element){
+	  	  element.addEventListener('click' , function(){
+	  	    document.getElementById('pg').value = this.dataset.page;
+	  		document.getElementById('searchForm').submit();
+	  	  });
+	  	});
+	  	const btn_search = document.getElementById("btn_search_askContent");
+	  	btn_search.addEventListener('click' , function(){
+	  	  document.getElementById('askContent').value = document.getElementById('search_askContent').value;
+	  	  document.getElementById('pg').value = 0;
+	  	  document.getElementById('searchForm').submit();
+	  	});
+	  </script>
+	  <script layout:fragment="script" type="text/javascript">
+	  	  	const page_element = document.getElementsByName("z");
+	  	  	Array.from(page_element).forEach(function(element){
+	  	  	  element.addEventListener('click' , function(){
+	  	  	    document.getElementById('page').value = this.dataset.page;
+	  	  		document.getElementById('searchForm').submit();
+	  	  	  });
+	  	  	});
+	  	  	const btn_searchs = document.getElementById("btn_search_freeContent");
+	  	  	btn_searchs.addEventListener('click' , function(){
+	  	  	  document.getElementById('freeContent').value = document.getElementById('search_freeContent').value;
+	  	  	  document.getElementById('page').value = 0;
+	  	  	  document.getElementById('searchForm').submit();
+	  	  	});
+	  	  </script> 
+</div>	
+</html>

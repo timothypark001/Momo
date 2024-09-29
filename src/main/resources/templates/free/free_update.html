@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoboard.css}">
+		<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+	</head>
+	<body>
+		<!--전체 영역-->
+		<div>
+			<!--form 시작-->
+			<form method="post" th:object="${freePostingForm}">
+				<!--제목 영역-->
+				<div class="wrapping outline">
+					<div th:replace="~{free/free_form_errors :: formErrorsFragment}"></div>
+					<div>
+					  <input type="text" th:field="*{subject}" class="form-control" th:value="${freePosting.content}">
+					</div>
+				</div>
+				<!--본문 영역-->
+				<div class="wrapping outline">
+					<div>
+					  <textarea th:field="*{content}" placeholder="본문을 입력하세요" rows="15" class="form-control"></textarea>
+					</div>
+				</div>
+				<!--버튼 영역-->
+				<div class="wrapping" align="right">
+					<button type="submit" class="btn btn-primary btn-sm" th:formaction="@{/free/create}">글쓰기</button>
+					</form>
+					<a th:href="@{/free/list}"><button type="button" class="btn btn-secondary btn-sm">목록</button></a>
+				</div>
+
+		<!--전체 영역 끝-->	
+		</div>
+
+		
+	</body>
+</html>

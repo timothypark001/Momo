@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+  <head>
+    <meta charset="UTF-8">
+    <title>이럴수가!! 오류가!!!</title>
+  </head>
+  <body layout:fragment="content" id="wrapper">
+    <div class="errorP">
+      <div class="errorB">
+        <center>
+        <img th:src="@{/css/images/40xerror.png}"><br>
+        <i style="color:#0054a6;">Oops!!!!!</i>
+        </center>
+      </div>
+      <div class="errorC">
+        오류가 발생하였습니다.<br>
+        페이지를 로딩할 수 없습니다.<br>
+        이용에 불편을 드려 대단히 죄송합니다.
+      </div>
+      <div>
+        
+      </div>
+      <!--
+      <div>
+          <p th:text="${timestamp}"></p>
+          <p th:text="${path}"></p>
+          <p th:text="${status}"></p>
+          <p th:text="${message}"></p>
+          <p th:text="${error}"></p>
+          <p th:text="${exception}"></p>
+          <p th:text="${errors}"></p>
+          <p th:text="${trace}"></p>
+      </div>
+    -->
+    </div>
+  </body>
+</html>

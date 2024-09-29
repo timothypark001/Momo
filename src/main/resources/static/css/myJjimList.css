@@ -1,0 +1,41 @@
+
+.new_list{
+	margin-top: 2px;
+	
+}
+
+
+.c1{
+border: none;
+	float: left;
+	width: 220px;
+	height: auto;
+	margin-top: 10px;
+	margin-left: 55px;
+	color: black;
+	max-width: 25rem;
+	background-color: #f4f4f4;
+	border-radius: 10px;
+	
+}
+.c2{
+	text-align: center;
+}
+
+
+a.a1{
+	text-decoration: none;
+	color: black;
+}
+.list{
+	overflow: auto;
+	width: 900px;
+	border:solid rgb(255, 255, 255);	
+
+}
+.img{
+	width: 220px;
+	height: 200px;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+}

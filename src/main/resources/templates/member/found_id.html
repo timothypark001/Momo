@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+	</head>
+	<body>
+		<!--전체 영역-->
+			<div layout:fragment="content" id='wrapper'>
+				<!--회원가입 영역-->
+				<div align="center">
+					<!--로고 영역-->
+					<div>
+						로고
+					</div>
+					<!--입력 필드 영역-->
+					<div class="wrapping outline half">
+						<ul class="nav nav-tabs" role="tablist">
+						  <li class="nav-item" role="presentation">
+						    <a class="nav-link active" data-bs-toggle="tab" href="#home" aria-selected="true" role="tab">아이디 찾기</a>
+						  </li>
+						  <li class="nav-item" role="presentation">
+						    <a class="nav-link" data-bs-toggle="tab" href="#profile" aria-selected="false" tabindex="-1" role="tab">비밀번호 찾기</a>
+						  </li>
+
+						</ul>
+						<div id="myTabContent" class="tab-content">
+						  <div class="tab-pane fade show active" id="home" role="tabpanel">
+						    <p>
+								<form type="post" th:action="@{/member/findid}">
+									<div class="form-check">
+								    	<input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+								    	<label class="form-check-label" for="optionsRadios1">
+								         이메일로 인증하기
+								       </label>
+								     </div>
+									   <div class="form-floating mb-3">
+									     <input type="email" name="email" class="form-control" id="floatingInput" placeholder="이메일을 입력하세요">
+									     <label for="floatingInput">이메일</label>
+									   </div>
+									   <div class="form-floating mb-3">
+									     <input type="text" name="membername" class="form-control" id="floatingInput" placeholder="이메일을 입력하세요">
+									     <label for="floatingInput">이름</label>
+									   </div>
+									   <div class="d-grid gap-2">
+									   	<button type="button" onclick="changePageTest()" class="btn btn-lg btn-primary">인증번호 보내기</button>
+									   </div>
+									   <div id="checkCode" style="padding:20px 0px;">
+										
+										
+									   </div>
+			   
+
+								</form>
+							</p>
+						  </div>
+						  <div class="tab-pane fade" id="profile" role="tabpanel">
+						    <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+						  </div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+	</body>
+</html>

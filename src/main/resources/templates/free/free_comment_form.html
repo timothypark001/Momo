@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoboard.css}">
+		<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+	</head>
+	<body>
+		
+		
+		
+		<!--답변 수정-->
+		<!--댓글 쓰기 영역-->
+		<div class="topline" layout:fragment="content">
+			<!--댓글 폼 영역-->
+			<form method="post" th:object="${freeCommentForm}">
+				<div class="wrapping outline">
+					<!--원래 코드-->
+						<div th:replace="~{free/free_form_errors :: formErrorsFragment}"></div>
+						<div></div>
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+						<div><textarea th:field="*{content}" placeholder="댓글을 작성해주세요"></textarea></div>
+						<div class="dvd">
+							<div class="dvd1">
+							</div>
+							<div class="dvd2">
+								<button type="submit" class="btn btn-light btn-sm">댓글등록</button>
+							</div>
+						</div>
+				</div>
+			</form>
+			<!--원래 코드 종료-->
+		</div>
+		
+	</body>
+</html>
+

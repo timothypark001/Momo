@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/css/momoBoard.css}">
+		<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+		<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-bold-straight/css/uicons-bold-straight.css'>
+		<title>로그인</title>
+	</head>
+	<body>
+		<!--전체 영역-->
+		<div layout:fragment="content" id='wrapper'>
+			<!--회원가입 영역-->
+			<div align="center">
+				<!--로고 영역-->
+				<div>
+				
+				</div>
+				<!--입력 필드 영역-->
+				<div class="wrapping outline half">
+					<!--상세 필드 영역-->
+					<form method="post" th:action="@{/member/login}">
+						<div th:if="${param.error}">
+							<div>아이디나 비밀번호를 확인하3</div>
+						</div>
+						<div class="form-floating mb-3">
+						  <input type="text" name="memberid" class="form-control" id="floatingInput" placeholder="아이디를 입력하세요">
+						  <label for="floatingInput">아이디</label>
+						</div>
+						<div class="form-floating">
+						  <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="비밀번호를 입력하세요" autocomplete="off">
+						  <label for="floatingPassword">비밀번호</label>
+						</div>
+						<div class="d-grid gap-2">
+							<br>
+							<button type="submit" class="btn btn-lg btn-primary">로그인</button>
+						</div>
+					</form>
+					<div class="d-grid gap-2">
+						<table style="width:100%;">
+							<tr>
+								<td style="width:50%;text-align:right;padding:20px;">
+									<a th:href="@{/oauth2/authorization/google}"><img th:src="@{/css/images/web_light_rd_na@2x.png}" style="width:50px;height:50px;"></a>
+								</td>
+								<td>
+									<a th:href="@{/oauth2/authorization/naver}"><img th:src="@{/css/images/btnG_icon_circle.png}" style="width:50px;height:50px;"></a>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<!--기타 로그인 메뉴 영역-->
+					<div class="membermenu">
+							<a th:href="@{/member/findid}">아이디 찾기</a>
+							&nbsp;&nbsp;|&nbsp;&nbsp;
+							<a th:href="@{/member/findpw}">비밀번호 찾기</a>
+							&nbsp;&nbsp;|&nbsp;&nbsp;
+							<a th:href="@{/member/signup}">회원가입</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

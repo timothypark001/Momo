@@ -1,0 +1,218 @@
+
+.rest{/*전체*/
+	width: 1080px;
+	height:auto;	
+	margin:auto;
+	margin-top:50px;
+}
+
+
+	.upper{ /*상단부*/
+		width: 1000px;
+		height: 50%;
+		box-sizing: border-box;
+		display: flex;
+	}
+	
+	.rest_info{ /*사진과 가게정보*/
+		width: 680px;
+		
+		display: flex;
+		margin-right:20px;
+	}
+	.rest_pic_info{
+		display: flex;
+	}
+	.pic { /*사진*/
+		width: 300px;
+		padding: 5px;
+		
+	}
+	.img{
+		width: 280px;
+		
+	}	
+
+.info{
+	margin:auto;
+	width:380px;
+}
+	.info_detail{
+		
+		height: 230px;
+	}
+	.info_menu{
+		
+		font-size: large;
+	}
+
+
+	
+	.etc{/*기타*/
+		width: 200px;
+		
+	}
+	
+	.etc_total{/**/
+		display: flex;
+	
+	}
+		.jjim{/*찜*/
+			width: 200px;	
+			
+			
+			
+		}
+		.star{/*평점*/
+			width: 200px;
+			padding: 5px;
+			font-size:20px;
+			color:#eb6864;
+		}
+
+	.map{/*지도*/
+	width: 300px;
+	}
+	.map_img{	
+	margin:auto
+	}
+				
+.bottom{/*하단부
+	width: 100%;
+	height: 50%;
+	padding: 10px;
+	border: 2px solid rgb(255, 255, 255);
+	border-radius: 15px;
+	*/
+			
+}
+	
+	.et{/*같이먹기*/
+		width: 1000px;
+
+	}
+		.et_mid{/**/
+			height: 30%;
+		}
+		
+			.et_now{/*같이먹기 현황*/
+				width: 1000px;
+				
+
+			}
+			.et_new{/*같이먹기 신규생성*/
+				width: 1000px;
+				
+	
+			}
+	
+			.et_table table, .et_table tr,  .et_table td {
+				border:none;
+			}
+			
+	.review{/*리뷰*/
+		width: 930px;	
+		
+	}
+	summary::-webkit-details-marker { /* Safari 브라우저용 사용자 정의 스타일 */
+	    display: none;
+	}
+	summary {
+	    list-style-type: none; /* 그 외의 브라우저용 사용자 정의 스타일 */
+	}
+	.accordion-header{
+		margin:20px;
+		display: flex;
+		
+	}
+	.accordion-body{
+		margin:20px;
+		
+		
+		
+	}
+	.accordion-button{
+		font-size: large;
+		text-align:justify;
+
+		position: relative;
+	}
+	.rc{
+		position: absolute;
+		right: 10px;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	
+	.re_list {
+		
+		margin:20px;
+		
+	}
+	.re_table table, .re_table tr, .re_table th, .re_table td {
+		border:none;
+	}
+	
+	.re_table td{
+		color:dimgray;
+		
+	}
+	
+	.re_create{
+		width: 800px;
+		border: 2px solid rgb(255, 255, 255);
+		margin-bottom: 10px;
+	}
+
+	.re_ddabong a{
+		color:dimgray;
+		
+	}
+	.review_edit{
+	
+		font-size:10px; 
+	}
+
+
+	.dvd1, .dvd2 {
+		width:50%;
+		
+	}
+	
+
+	
+	#myform fieldset{
+    display: inline-block;
+    direction: rtl;
+    border:0;
+}
+#myform fieldset legend{
+    text-align: right;
+}
+#myform input[type=radio]{
+    display: none;
+}
+#myform label{
+    font-size: 3em;
+    color: transparent;
+    text-shadow: 0 0 0 #f0f0f0;
+}
+#myform label:hover{
+    text-shadow: 0 0 0 #eb6864;
+}
+#myform label:hover ~ label{
+    text-shadow: 0 0 0 #eb6864;
+}
+#myform input[type=radio]:checked ~ label{
+    text-shadow: 0 0 0 #eb6864;
+}
+#reviewContents {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: solid 1.5px #D3D3D3;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+}

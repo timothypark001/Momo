@@ -1,0 +1,118 @@
+<html layout:decorate="~{layout_mypage}">
+<div  layout:fragment="mypageContent" id="wrapper">
+	
+	
+	<style>
+	
+			img.siz  {
+				/*width:80px;*/
+				
+				border-radius: 50%;
+				width:80px;
+				height: 80px;
+				object-fit: cover;
+				margin-left: auto;
+				margin-right: auto;
+				vertical-align: middle;
+			}
+			
+			.profile-size{
+				border-radius: 50%;
+				width:200px;
+				height: 200px;
+				object-fit: cover;
+				margin-left: auto;
+				margin-right: auto;
+				vertical-align: middle;			
+			}
+	
+		</style>
+	
+	
+	
+	<div style="width:500px;">
+	
+	<h2 class="border-bottom py-2">친구</h2>
+	
+	<h6 class="py-2 my-3" th:text="|친구 ${#lists.size(member.friend)}명|"></h6>
+		
+		<table class="table table-hover">
+			<thead class="table-primary">
+				<tr>
+					<td colspan="3">친구</td>
+				</tr>
+			</thead>
+		
+			<tbody>
+				
+				<th:block th:each="friends : ${member.friend}">
+
+					<tr th:if="${friends.memberid != null}">
+					<td>
+					<img class="siz" th:src="@{|/img/${friends.image.storeFilename}|}" th:if="${friends.image != null}">
+					<img class="siz" th:unless="${friends.image != null}" src="/img/default_profile.png" >&nbsp; &nbsp; &nbsp;
+										
+					<!--닉네임 누르면 프로필보기 모달 -->
+					<span><a href="#" data-bs-toggle="modal" th:attr="data-bs-target=${'#profile' + friends.no}" th:text="${friends.membernick}"></a></span>
+					</td>					 
+					
+					<td style="vertical-align: middle;">
+												
+					<div class="d-flex justify-content-end"> 
+					<form th:action="@{/friend/delete}" method="post">
+					<input type="hidden" name="friendid" th:value="${friends.memberid}">
+						<button class="btn btn-primary" onclick="alert('친구 삭제 완료')"  type="submit" >친구 삭제</button> 					
+					</form>
+					</div>
+					</td>			  	
+					</tr>
+						<!-- Modal -->
+						
+						<div class="modal"  th:attr="id='profile' +${friends.no}"   tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+																
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+								
+										<h1 class="modal-title fs-5" id="exampleModalLabel">
+											<span th:text="|${friends.membernick}님의 프로필|"></span>	
+										</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body" >
+									<!--	 프로필 사진 --> 
+										<div class="d-flex justify-center" >
+											<img class="profile-size" th:src="@{|/img/${friends.image.storeFilename}|}" th:if="${friends.image != null}">
+											<img class="profile-size" th:unless="${friends.image != null}" src="/img/default_profile.png" >
+										</div>
+										<br>								
+										<ul class="list-group" >
+											<li class="list-group-item d-flex justify-content-between align-items-center">mbti
+												<span th:if="${friends.profile != null}" th:text="${friends.profile.mbti}"></span>
+												<span th:if="${friends.profile == null}" th:text="미입력"></span>	
+											</li>
+											<li class="list-group-item d-flex justify-content-between align-items-center">성별
+												<span th:if="${friends.profile != null}" th:text="${friends.profile.gender}"></span>
+												<span th:if="${friends.profile == null}" th:text="미입력"></span>	
+											</li>
+											<li class="list-group-item d-flex justify-content-between align-items-center">자기소개
+												<span th:if="${friends.profile != null}" th:text="${friends.profile.content}"></span>
+												<span th:if="${friends.profile == null}" th:text="미입력"></span>	
+											</li>
+										</ul>
+									</div>															
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+									</div>
+								</div>
+							</div>
+						</div>   
+	
+				</th:block>				
+		
+			</tbody>
+							
+		</table>				
+</div>
+</div>
+</html>

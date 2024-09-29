@@ -1,0 +1,31 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" id='wrapper'>
+	
+	<h2 class="border-bottom pb-2">공지사항 등록</h2>
+	
+		<form  th:object="${noticePostingForm}" method="post">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			<div  th:replace="~{form_errors :: formErrorsFragment}"></div>
+	<!-- 제목 -->
+		<div class="form-floating my-3">
+		  <textarea class="form-control"  th:field="*{subject}"></textarea>
+		  <label for="subject">제목</label>
+		</div>
+		
+	<!-- 내용 -->
+		<div class="form-floating my-3">
+			  <textarea class="form-control"  th:field="*{content}" style="height: 300px"></textarea>
+			  <label for="scontent">내용</label>
+			  </div>
+	
+	<input type="submit" value="글등록" class="btn btn-primary" >
+	<a th:href="@{/notice/list}" class="btn btn-primary">목록</a>
+	</form>
+	
+	
+	
+	
+	
+	
+</div>
+</html>

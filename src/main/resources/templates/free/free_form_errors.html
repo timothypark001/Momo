@@ -1,0 +1,6 @@
+<!--유효성 검사-->
+<div th:fragment="formErrorsFragment" class="alert alert-dismissible alert-primary" th:if="${#fields.hasAnyErrors()}">
+	<div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+</div>
+
+<!--유효성 검사 끝-->

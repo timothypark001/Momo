@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+  <head>
+    <meta charset="UTF-8">
+    <title>모두 모이자, 모모 : 마이페이지</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/momoMypage.css}">
+    <script th:src="@{/js/momoMypage.js}"></script>
+  </head>
+  <body>
+
+    <div layout:fragment="content" class="mypageLayout" id="contentContainer">
+      <div class="mypageLayout-t">
+        <div class="mypageLayout-l" th:insert="~{mypage/mypage_menu :: mypageMenu}">
+        </div>
+        <div class="mypageLayout-r">
+          <th:block layout:fragment="mypageContent"></th:block>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
